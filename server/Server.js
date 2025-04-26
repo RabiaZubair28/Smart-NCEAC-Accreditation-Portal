@@ -13,12 +13,18 @@ import batchRoutes from "./Routes/batchRoutes.js";
 import assessmentsRoutes from "./Routes/assessmentsRoutes.js";
 import accreditationRoutes from "./Routes/accreditationRoutes.js";
 import Batch from "./Models/batch-model.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const corsOptions = {
   origin: ["http://localhost:5173"],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
   credentials: true,
+  optionSuccessStatus: 200,
 };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -79,6 +85,12 @@ app.post("/upload-pdf/:batchId", upload.single("file"), async (req, res) => {
     console.error("Cloudinary upload error:", err);
     res.status(500).json({ error: "PDF upload failed" });
   }
+});
+
+app.use(express.static(path.join(__dirname, "..", "/client/dist")));
+console.log(__dirname);
+app.get("*", (_, res) => {
+  res.sendFile(path.resolve(__dirname, "..", "client", "dist", "index.html"));
 });
 
 app.listen(port, () => {
