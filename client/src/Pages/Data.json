@@ -1,0 +1,62 @@
+[
+  {
+    "courseId":"6744b1c37397f20e00260053",
+    "courseCode": "CS101",
+    "courseName": "Introduction to Programming",
+    "clos": [
+      { "cloId": "CLO1", "ploId": "PLO1", "weight": 25 },
+      { "cloId": "CLO2", "ploId": "PLO2", "weight": 18 },
+      { "cloId": "CLO3", "ploId": "PLO3", "weight": 22 },
+      { "cloId": "CLO4", "ploId": "PLO4", "weight": 20 },
+      { "cloId": "CLO5", "ploId": "PLO5", "weight": 15 }
+    ]
+  },
+  {
+    "courseId":"67f50aa77e64049a167b6a77",
+    "courseCode": "CS102",
+    "courseName": "Data Structures",
+    "clos": [
+      { "cloId": "CLO1", "ploId": "PLO6", "weight": 30 },
+      { "cloId": "CLO2", "ploId": "PLO1", "weight": 15 },
+      { "cloId": "CLO3", "ploId": "PLO2", "weight": 20 },
+      { "cloId": "CLO4", "ploId": "PLO3", "weight": 25 },
+      { "cloId": "CLO5", "ploId": "PLO4", "weight": 20 }
+    ]
+  },
+  {
+    "courseId":"67f61d0d94cf3a16726ae389",
+    "courseCode": "CS103",
+    "courseName": "Computer Architecture",
+    "clos": [
+      { "cloId": "CLO1", "ploId": "PLO5", "weight": 28 },
+      { "cloId": "CLO2", "ploId": "PLO6", "weight": 25 },
+      { "cloId": "CLO3", "ploId": "PLO1", "weight": 20 },
+      { "cloId": "CLO4", "ploId": "PLO2", "weight": 22 },
+      { "cloId": "CLO5", "ploId": "PLO3", "weight": 20 }
+    ]
+  },
+  {
+    "courseId":"67f61e7694cf3a16726ae3de",
+    "courseCode": "CS104",
+    "courseName": "Database Systems",
+    "clos": [
+      { "cloId": "CLO1", "ploId": "PLO4", "weight": 18 },
+      { "cloId": "CLO2", "ploId": "PLO5", "weight": 27 },
+      { "cloId": "CLO3", "ploId": "PLO6", "weight": 20 },
+      { "cloId": "CLO4", "ploId": "PLO1", "weight": 20 },
+      { "cloId": "CLO5", "ploId": "PLO2", "weight": 20 }
+    ]
+  },
+  {
+    "courseId":"/6744aed37397f20e0025fffc",
+    "courseCode": "CS105",
+    "courseName": "Operating Systems",
+    "clos": [
+      { "cloId": "CLO1", "ploId": "PLO3", "weight": 13 },
+      { "cloId": "CLO2", "ploId": "PLO4", "weight": 22 },
+      { "cloId": "CLO3", "ploId": "PLO5", "weight": 30 },
+      { "cloId": "CLO4", "ploId": "PLO6", "weight": 25 },
+      { "cloId": "CLO5", "ploId": "PLO1", "weight": 20 }
+    ]
+  }
+]
