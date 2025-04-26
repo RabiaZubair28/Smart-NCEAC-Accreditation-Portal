@@ -1624,7 +1624,7 @@ export const forgotPassword = async (req, res) => {
     await user.save();
 
     // Create reset link (pointing to your frontend)
-    const resetLink = `http://localhost:5173/reset-password?token=${resetToken}&userType=${userType}`;
+    const resetLink = `https://iba-nceac.onrender.com/reset-password?token=${resetToken}&userType=${userType}`;
 
     // Send email with reset link
     const mailOptions = {

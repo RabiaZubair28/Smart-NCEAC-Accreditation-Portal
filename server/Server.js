@@ -17,7 +17,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const corsOptions = {
-  origin: ["http://localhost:5173"],
+  origin: ["https://iba-nceac.onrender.com"],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
   credentials: true,
   optionSuccessStatus: 200,
