@@ -25,7 +25,7 @@ const GoToStudent2 = () => {
       setError(null);
 
       const response = await fetch(
-        `https://iba-nceac.onrender.com/api/students/id/${id}`
+        `https://iba-nceac.site/api/students/id/${id}`
       );
       if (!response.ok) throw new Error("Failed to fetch student data");
 
@@ -55,7 +55,7 @@ const GoToStudent2 = () => {
   const updatePLOs = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.onrender.com/api/students/${id}/updatePLO`,
+        `https://iba-nceac.site/api/students/${id}/updatePLO`,
         {
           method: "PUT",
           headers: {
@@ -170,7 +170,7 @@ const GoToStudent2 = () => {
 
       // Update server
       const response = await fetch(
-        `https://iba-nceac.onrender.com/api/students/${id}/courses/${currentCourse._id}/assessments/${currentAssessment._id}`,
+        `https://iba-nceac.site/api/students/${id}/courses/${currentCourse._id}/assessments/${currentAssessment._id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

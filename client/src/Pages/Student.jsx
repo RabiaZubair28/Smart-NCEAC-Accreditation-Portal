@@ -23,7 +23,7 @@ const Student = () => {
 
     try {
       const response = await axios.post(
-        "https://iba-nceac.onrender.com/api/students/upload",
+        "https://iba-nceac.site/api/students/upload",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

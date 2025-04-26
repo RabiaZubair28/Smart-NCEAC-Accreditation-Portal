@@ -33,7 +33,7 @@ export default function FacultyInfo() {
   const getInstructors = async () => {
     try {
       const response = await fetch(
-        "https://iba-nceac.onrender.com/api/data/instructors"
+        "https://iba-nceac.site/api/data/instructors"
       );
       if (response.ok) {
         const data = await response.json();
@@ -66,7 +66,7 @@ export default function FacultyInfo() {
 
     try {
       const response = await fetch(
-        "https://iba-nceac.onrender.com/api/data/instructors",
+        "https://iba-nceac.site/api/data/instructors",
         {
           method: "POST",
           headers: {

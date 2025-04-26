@@ -21,7 +21,7 @@ const SectionStudents = () => {
   const fetchStudents = async () => {
     try {
       const res = await fetch(
-        `https://iba-nceac.onrender.com/api/students/${batchId}/${section}`
+        `https://iba-nceac.site/api/students/${batchId}/${section}`
       );
       const studentData = await res.json();
       setStudents(studentData);

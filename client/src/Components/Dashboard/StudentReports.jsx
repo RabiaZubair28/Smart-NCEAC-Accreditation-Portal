@@ -549,7 +549,7 @@ const StudentReports = () => {
     const fetchStudentData = async () => {
       try {
         const response = await axios.get(
-          `https://iba-nceac.onrender.com/api/students/id/${id}`,
+          `https://iba-nceac.site/api/students/id/${id}`,
           {
             params: {
               populate: "courses.courseId courses.assessments.assessmentId",

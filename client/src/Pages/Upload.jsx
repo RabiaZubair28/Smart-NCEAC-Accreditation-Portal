@@ -15,7 +15,7 @@ const Upload = () => {
 
     try {
       const res = await axios.post(
-        "https://iba-nceac.onrender.com/upload-pdf",
+        "https://iba-nceac.site/upload-pdf",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

@@ -40,7 +40,7 @@ const StdPersonalInfo = () => {
   const fetchStudentDetails = async () => {
     try {
       const response = await axios.get(
-        `https://iba-nceac.onrender.com/api/students/info/${params.id}`,
+        `https://iba-nceac.site/api/students/info/${params.id}`,
         {
           headers: {
             "Content-Type": "application/json",

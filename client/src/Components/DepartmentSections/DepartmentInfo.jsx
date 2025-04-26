@@ -36,7 +36,7 @@ export default function DepartmentInfo() {
   const getDepartmentInfo = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.onrender.com/api/data/department/${params.id}`,
+        `https://iba-nceac.site/api/data/department/${params.id}`,
         {
           method: "GET",
         }
@@ -75,19 +75,16 @@ export default function DepartmentInfo() {
       return;
     }
 
-    fetch(
-      `https://iba-nceac.onrender.com/api/data/department/${params.id}/plo`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ploIndex: ploIndexToEdit,
-          newPLO: editPLOValue,
-        }),
-      }
-    )
+    fetch(`https://iba-nceac.site/api/data/department/${params.id}/plo`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ploIndex: ploIndexToEdit,
+        newPLO: editPLOValue,
+      }),
+    })
       .then((response) => {
         if (response.ok) {
           showNotification("PLO updated successfully!", true);
@@ -107,7 +104,7 @@ export default function DepartmentInfo() {
   const handleSaveSchema = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.onrender.com/api/data/department/${params.id}/schema`,
+        `https://iba-nceac.site/api/data/department/${params.id}/schema`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -131,7 +128,7 @@ export default function DepartmentInfo() {
   const handleDeleteSchema = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.onrender.com/api/data/department/${params.id}/schema`,
+        `https://iba-nceac.site/api/data/department/${params.id}/schema`,
         {
           method: "DELETE",
         }
@@ -151,16 +148,13 @@ export default function DepartmentInfo() {
 
   // Handle delete PLO
   const handleDeletePLO = (ploIndex) => {
-    fetch(
-      `https://iba-nceac.onrender.com/api/data/department/${params.id}/plo`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ploIndex }),
-      }
-    )
+    fetch(`https://iba-nceac.site/api/data/department/${params.id}/plo`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ploIndex }),
+    })
       .then((response) => {
         if (response.ok) {
           showNotification("PLO deleted successfully!", true);
@@ -192,7 +186,7 @@ export default function DepartmentInfo() {
 
     try {
       const response = await fetch(
-        `https://iba-nceac.onrender.com/api/data/department/${params.id}/add-plo`,
+        `https://iba-nceac.site/api/data/department/${params.id}/add-plo`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

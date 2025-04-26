@@ -46,7 +46,7 @@ function Dashboard() {
   const getDepartmentInfo = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.onrender.com/api/data/department/${params.id}`,
+        `https://iba-nceac.site/api/data/department/${params.id}`,
         {
           method: "GET",
         }
@@ -68,9 +68,7 @@ function Dashboard() {
 
   useEffect(() => {
     axios
-      .get(
-        `https://iba-nceac.onrender.com/api/students/allStudents/${departmentId}`
-      )
+      .get(`https://iba-nceac.site/api/students/allStudents/${departmentId}`)
       .then((res) => {
         setStudents(res.data);
         console.log("Fetched students:", res.data);
@@ -84,7 +82,7 @@ function Dashboard() {
     const fetchAccreditation = async () => {
       try {
         const res = await axios.get(
-          `https://iba-nceac.onrender.com/api/accreditation/getAccreditation/${departmentId}`
+          `https://iba-nceac.site/api/accreditation/getAccreditation/${departmentId}`
         );
         setData(res.data);
       } catch (err) {

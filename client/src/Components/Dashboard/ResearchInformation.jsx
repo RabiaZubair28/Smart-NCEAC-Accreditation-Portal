@@ -33,7 +33,7 @@ export default function ResearchInfo() {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://iba-nceac.onrender.com/api/data/research/${params.id}`,
+        `https://iba-nceac.site/api/data/research/${params.id}`,
         {
           method: "GET",
         }
@@ -88,14 +88,11 @@ export default function ResearchInfo() {
         }),
       };
 
-      const response = await fetch(
-        "https://iba-nceac.onrender.com/api/data/research",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(researchData),
-        }
-      );
+      const response = await fetch("https://iba-nceac.site/api/data/research", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(researchData),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -146,7 +143,7 @@ export default function ResearchInfo() {
       }
 
       const response = await fetch(
-        `https://iba-nceac.onrender.com/api/data/research/${researchToEdit._id}`,
+        `https://iba-nceac.site/api/data/research/${researchToEdit._id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -194,7 +191,7 @@ export default function ResearchInfo() {
       }
 
       const response = await fetch(
-        `https://iba-nceac.onrender.com/api/data/research/${researchToDelete._id}`,
+        `https://iba-nceac.site/api/data/research/${researchToDelete._id}`,
         { method: "DELETE" }
       );
 

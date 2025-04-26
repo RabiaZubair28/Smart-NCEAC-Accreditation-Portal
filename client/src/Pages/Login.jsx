@@ -21,7 +21,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://iba-nceac.onrender.com/api/auth/login",
+        "https://iba-nceac.site/api/auth/login",
         { userID, password },
         { withCredentials: true }
       );
@@ -67,7 +67,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://iba-nceac.onrender.com/api/auth/forgot-password",
+        "https://iba-nceac.site/api/auth/forgot-password",
         {
           email,
           userType: "instructor",
