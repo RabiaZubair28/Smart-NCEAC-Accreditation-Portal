@@ -1,0 +1,85 @@
+/* Use the Chap font-family */
+@import url('https://fonts.googleapis.com/css2?family=Chap&display=swap');
+
+body {
+  background: url('https://placehold.co/1920x1080') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Chap', sans-serif;
+  margin: 0;
+}
+
+.backdrop-blur {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  z-index: 0; /* Keeps it behind the modal */
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cross-button {
+  background-color: #1F2C73;
+  color: white;
+  font-size: 1.25rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.3s ease, background-color 0.3s ease;
+  border: none;
+}
+
+.cross-button:hover {
+  background-color: #1F2C73;;
+  color:white;
+  transform: rotate(45deg);
+}
+
+.cross-button:active {
+  transform: scale(1.2);
+}
+
+
+/* Button styling for "LET'S TALK" */
+.btn-talk {
+  background-color: rgb(133, 207, 232); /* Button color */
+  color: white;
+  width: 186.92px !important; /* Force the width */
+  height: 48.64px !important; /* Force the height */
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+  font-family:coms;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for color change */
+  border: none;
+  display: flex; /* Flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  text-transform: uppercase; /* Optional: Capitalize the text */
+  margin : 0 auto;
+}
+
+.btn-talk:hover {
+  background-color: white;
+  color: #1F2C73; /* Change text color to blue when hovered */
+}

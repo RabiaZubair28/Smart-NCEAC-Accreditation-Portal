@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white text-gray-900 overflow-x-hidden;
+  }
+}
+
+@layer utilities {
+  .text-navy-900 {
+    color: #1a365d;
+  }
+  .text-navy-700 {
+    color: #2c5282;
+  }
+}
