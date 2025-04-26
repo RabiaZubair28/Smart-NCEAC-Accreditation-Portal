@@ -475,10 +475,10 @@ const NumericalReport = () => {
 
         const [studentsRes, batchesRes] = await Promise.all([
           axios.get(
-            `http://localhost:1234/api/students/allStudents/${departmentId}`
+            `https://iba-nceac.onrender.com/api/students/allStudents/${departmentId}`
           ),
           axios.get(
-            `http://localhost:1234/api/batches/all-batches/${departmentId}`
+            `https://iba-nceac.onrender.com/api/batches/all-batches/${departmentId}`
           ),
         ]);
 

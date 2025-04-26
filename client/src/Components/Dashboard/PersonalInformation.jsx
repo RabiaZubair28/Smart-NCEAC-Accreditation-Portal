@@ -190,7 +190,6 @@ const DeleteModal = ({ title, onClose, onConfirm }) => (
 );
 
 const PersonalInformation = () => {
-
   const [message, setMessage] = useState({ text: "", type: "" });
   const [editField, setEditField] = useState(null);
   const [deleteField, setDeleteField] = useState(null);
@@ -202,7 +201,7 @@ const PersonalInformation = () => {
   const getDetails = async () => {
     try {
       const response = await fetch(
-        `http://localhost:1234/api/data/instructor/${params.id}`
+        `https://iba-nceac.onrender.com/api/data/instructor/${params.id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -219,8 +218,6 @@ const PersonalInformation = () => {
     setTimeout(() => setMessage({ text: "", type: "" }), 3000);
   };
 
-
-
   const updateField = async (field) => {
     const patterns = {
       userID: /^INS-\d{4}$/,
@@ -236,7 +233,7 @@ const PersonalInformation = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:1234/api/data/instructor/edit/${details._id}`,
+        `https://iba-nceac.onrender.com/api/data/instructor/edit/${details._id}`,
         { [field]: tempValue, action: `edit${capitalize(field)}` }
       );
       if (response.status === 200) {
@@ -253,7 +250,7 @@ const PersonalInformation = () => {
   const deleteFieldValue = async (field) => {
     try {
       const response = await axios.put(
-        `http://localhost:1234/api/data/instructor/${details._id}`,
+        `https://iba-nceac.onrender.com/api/data/instructor/${details._id}`,
         { [field]: "", action: `delete${capitalize(field)}` }
       );
       if (response.status === 200) {

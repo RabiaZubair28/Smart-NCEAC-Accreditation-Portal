@@ -22,9 +22,13 @@ const Student = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:1234/api/students/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(
+        "https://iba-nceac.onrender.com/api/students/upload",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
       setMessage(response.data.message); // Display success message
     } catch (error) {

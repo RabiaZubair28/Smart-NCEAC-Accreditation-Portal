@@ -13,9 +13,12 @@ const Instructor = () => {
   // Fetch instructor data
   const getInstructorInfo = async () => {
     try {
-      const response = await fetch(`http://localhost:1234/api/data/instructor/${id}`, {
-        method: "GET",
-      });
+      const response = await fetch(
+        `https://iba-nceac.onrender.com/api/data/instructor/${id}`,
+        {
+          method: "GET",
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -35,8 +38,9 @@ const Instructor = () => {
   }, []);
 
   // Check if the instructor is an HOD
-  const isHOD =
-    ['hod', 'head of department', 'head of dept'].includes(instructorInfo?.role?.toLowerCase());
+  const isHOD = ["hod", "head of department", "head of dept"].includes(
+    instructorInfo?.role?.toLowerCase()
+  );
 
   return (
     <Layout

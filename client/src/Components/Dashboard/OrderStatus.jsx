@@ -12,7 +12,7 @@ function OrderStatus() {
   const getDepartmentInfo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:1234/api/data/department/${params.id}`,
+        `https://iba-nceac.onrender.com/api/data/department/${params.id}`,
         {
           method: "GET",
         }
@@ -35,7 +35,9 @@ function OrderStatus() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:1234/api/students/allStudents/${departmentId}`)
+      .get(
+        `https://iba-nceac.onrender.com/api/students/allStudents/${departmentId}`
+      )
       .then((res) => {
         setStudents(res.data);
       })

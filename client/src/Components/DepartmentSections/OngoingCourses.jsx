@@ -55,7 +55,7 @@ export default function OngoingCourses() {
   const deleteCourse = async (courseId) => {
     try {
       const res = await axios.delete(
-        `http://localhost:1234/api/data/courses/${courseId}`
+        `https://iba-nceac.onrender.com/api/data/courses/${courseId}`
       );
       showNotification("Course deleted successfully", true); // Success notification
       setDeleteModal(false);
@@ -69,7 +69,7 @@ export default function OngoingCourses() {
   const fetchStudents = async (batchName, section) => {
     try {
       const response = await fetch(
-        `http://localhost:1234/api/students/fetchByBatch?batchName=${batchName}&section=${section}`
+        `https://iba-nceac.onrender.com/api/students/fetchByBatch?batchName=${batchName}&section=${section}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -87,7 +87,7 @@ export default function OngoingCourses() {
   const getBatches = async () => {
     try {
       const response = await fetch(
-        "http://localhost:1234/api/batches/all-batches",
+        "https://iba-nceac.onrender.com/api/batches/all-batches",
         {
           method: "GET",
         }
@@ -112,7 +112,7 @@ export default function OngoingCourses() {
   const getDepartments = async () => {
     try {
       const response = await fetch(
-        "http://localhost:1234/api/data/departments",
+        "https://iba-nceac.onrender.com/api/data/departments",
         {
           method: "GET",
         }
@@ -203,7 +203,7 @@ export default function OngoingCourses() {
   const getInstructors = async () => {
     try {
       const response = await fetch(
-        "http://localhost:1234/api/data/instructors",
+        "https://iba-nceac.onrender.com/api/data/instructors",
         {
           method: "GET",
         }
@@ -238,7 +238,7 @@ export default function OngoingCourses() {
   const getCoursesInfo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:1234/api/data/department/id/${params.id}`,
+        `https://iba-nceac.onrender.com/api/data/department/id/${params.id}`,
         {
           method: "GET",
         }
@@ -283,7 +283,7 @@ export default function OngoingCourses() {
 
     try {
       const response = await fetch(
-        `http://localhost:1234/api/data/course/${selectedInstructor}`,
+        `https://iba-nceac.onrender.com/api/data/course/${selectedInstructor}`,
         {
           method: "POST",
           headers: {
@@ -342,7 +342,7 @@ export default function OngoingCourses() {
       console.log("courseId", capturedCourseId);
       try {
         const response = await fetch(
-          `http://localhost:1234/api/students/${selectedStudents[i]}/add-course`,
+          `https://iba-nceac.onrender.com/api/students/${selectedStudents[i]}/add-course`,
           {
             method: "PUT",
             headers: {

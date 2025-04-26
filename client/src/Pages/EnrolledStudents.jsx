@@ -13,7 +13,7 @@ const EnrolledStudents = () => {
   const getCourseInfo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:1234/api/data/course/id/${params.id}`
+        `https://iba-nceac.onrender.com/api/data/course/id/${params.id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -29,8 +29,8 @@ const EnrolledStudents = () => {
   const fetchStudents = async (studentIds) => {
     try {
       const studentPromises = studentIds.map((id) =>
-        fetch(`http://localhost:1234/api/students/id/${id}`).then((res) =>
-          res.json()
+        fetch(`https://iba-nceac.onrender.com/api/students/id/${id}`).then(
+          (res) => res.json()
         )
       );
       const studentData = await Promise.all(studentPromises);

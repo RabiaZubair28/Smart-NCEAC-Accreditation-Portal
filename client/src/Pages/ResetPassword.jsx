@@ -1,23 +1,23 @@
-import { useState } from 'react';
-import axios from 'axios';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function ResetPassword() {
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(null);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const token = searchParams.get('token');
-  const userType = searchParams.get('userType');
+  const token = searchParams.get("token");
+  const userType = searchParams.get("userType");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (newPassword !== confirmPassword) {
       setSubmitSuccess(false);
       setMessage("Passwords don't match");
@@ -25,20 +25,23 @@ function ResetPassword() {
     }
 
     setIsSubmitting(true);
-    
+
     try {
-      const response = await axios.post("http://localhost:1234/api/auth/reset-password", {
-        token,
-        userType,
-        newPassword
-      });
-      
+      const response = await axios.post(
+        "https://iba-nceac.onrender.com/api/auth/reset-password",
+        {
+          token,
+          userType,
+          newPassword,
+        }
+      );
+
       setSubmitSuccess(true);
       setMessage(response.data.message);
-      
+
       // Redirect to login after 3 seconds
       setTimeout(() => {
-        navigate(userType === 'instructor' ? '/login' : '/student-login');
+        navigate(userType === "instructor" ? "/login" : "/student-login");
       }, 3000);
     } catch (error) {
       setSubmitSuccess(false);
@@ -100,7 +103,7 @@ function ResetPassword() {
                 disabled={isSubmitting}
                 className="w-full bg-[#1a237e] text-white font-semibold py-3 rounded-xl hover:bg-opacity-90 transition-colors text-lg"
               >
-                {isSubmitting ? 'Resetting...' : 'Reset Password'}
+                {isSubmitting ? "Resetting..." : "Reset Password"}
               </motion.button>
             </form>
 

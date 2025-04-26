@@ -50,7 +50,7 @@ const EnrolledCourses = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:1234/api/students/id/${id}`
+        `https://iba-nceac.onrender.com/api/students/id/${id}`
       );
       setStudent(response.data);
 

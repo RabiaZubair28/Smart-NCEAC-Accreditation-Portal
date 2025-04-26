@@ -425,7 +425,7 @@ const GraphicalReport = () => {
   const getCourseInfo = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:1234/api/data/course/id/${id}`,
+        `https://iba-nceac.onrender.com/api/data/course/id/${id}`,
         { method: "GET" }
       );
 
@@ -465,10 +465,10 @@ const GraphicalReport = () => {
 
         const [studentsRes, batchesRes] = await Promise.all([
           axios.get(
-            `http://localhost:1234/api/students/allStudents/${departmentId}`
+            `https://iba-nceac.onrender.com/api/students/allStudents/${departmentId}`
           ),
           axios.get(
-            `http://localhost:1234/api/batches/all-batches/${departmentId}`
+            `https://iba-nceac.onrender.com/api/batches/all-batches/${departmentId}`
           ),
         ]);
 
