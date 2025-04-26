@@ -1,0 +1,127 @@
+.message {
+  display: flex;
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  max-width: 80%;
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.userMessage {
+  margin-left: auto;
+  flex-direction: row-reverse;
+}
+
+.botMessage {
+  margin-right: auto;
+}
+
+.messageContent {
+  border-radius: 18px;
+  padding: 12px 16px;
+  position: relative;
+  max-width: 100%;
+}
+
+.userMessage .messageContent {
+  background-color: #1a237e;
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.botMessage .messageContent {
+  background-color: #f5f5f5;
+  color: #333;
+  border-bottom-left-radius: 4px;
+}
+
+.messageText {
+  line-height: 1.4;
+  font-size: 15px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.messageTime {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-top: 4px;
+  text-align: right;
+}
+
+.botAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-right: 8px;
+  background-color: #e8eaf6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a237e;
+  flex-shrink: 0;
+}
+
+.botAvatar svg {
+  width: 24px;
+  height: 24px;
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background-color: currentColor;
+  margin-left: 2px;
+  animation: blink 1s infinite;
+  vertical-align: middle;
+}
+
+.typingIndicator {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.typingIndicator span {
+  animation: dotPulse 1.5s infinite;
+  display: inline-block;
+}
+
+.typingIndicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typingIndicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .message {
+    max-width: 90%;
+  }
+  
+  .messageText {
+    font-size: 14px;
+  }
+  
+  .botAvatar {
+    width: 32px;
+    height: 32px;
+  }
+}
