@@ -1190,9 +1190,30 @@ export const uploadExcelFile = async (req, res) => {
         .json({ message: "No valid data found in the Excel file." });
     }
 
+    // First check for existing students to avoid duplicates
+    const existingStudents = await Student.find({
+      studentId: {
+        $in: sheetData.map((row) => row.StudentId || row.studentId),
+      },
+    });
+
+    const existingStudentIds = existingStudents.map((s) => s.studentId);
+
+    // Filter out existing students and prepare new ones
+    const newStudentsData = sheetData.filter(
+      (row) => !existingStudentIds.includes(row.StudentId || row.studentId)
+    );
+
+    if (newStudentsData.length === 0) {
+      return res.status(200).json({
+        message: "No new students to add - all records already exist",
+        duplicates: existingStudentIds,
+      });
+    }
+
     // Map the rows to student objects with password
     const studentsToInsert = await Promise.all(
-      sheetData.map(async (row) => {
+      newStudentsData.map(async (row) => {
         let dateOfBirth = null;
         if (row.dateOfBirth) {
           const [day, month, year] = row.dateOfBirth.split("-");
@@ -1226,7 +1247,6 @@ export const uploadExcelFile = async (req, res) => {
           }
 
           const numberOfPLOs = department.PLO.length;
-          console.log(numberOfPLOs);
           achievedPLOs = Array(numberOfPLOs).fill(0);
         }
 
@@ -1253,13 +1273,23 @@ export const uploadExcelFile = async (req, res) => {
       })
     );
 
-    // Insert new students
-    const insertedStudents = await Student.insertMany(studentsToInsert);
+    // Insert new students with error handling for each
+    const results = {
+      insertedCount: 0,
+      duplicates: existingStudentIds,
+      errors: [],
+    };
+
+    // Use ordered: false to continue inserting even if some fail
+    const insertResult = await Student.insertMany(studentsToInsert, {
+      ordered: false,
+    });
+    results.insertedCount = insertResult.length;
 
     // ============= Batch Creation & Section Assignment with Department =============
     const batchMap = new Map();
 
-    insertedStudents.forEach((student) => {
+    insertResult.forEach((student) => {
       const { studentBatch, studentSection, departmentId, batchSchema } =
         student;
       if (!batchMap.has(studentBatch)) {
@@ -1314,11 +1344,32 @@ export const uploadExcelFile = async (req, res) => {
     }
     // ============= End Batch Creation =============
 
-    res
-      .status(200)
-      .json({ message: "Students uploaded and batches created successfully!" });
+    res.status(200).json({
+      message: "Students upload processed",
+      ...results,
+      totalRecords: sheetData.length,
+      successCount: results.insertedCount,
+      duplicateCount: results.duplicates.length,
+      errorCount: results.errors.length,
+    });
   } catch (error) {
     console.error("Error processing file:", error);
+
+    // Handle bulk write errors specifically
+    if (error.name === "MongoBulkWriteError") {
+      const writeErrors = error.writeErrors || [];
+      const errorDetails = writeErrors.map((err) => ({
+        studentId: err.err.op.studentId,
+        error: err.err.errmsg,
+      }));
+
+      return res.status(400).json({
+        message: "Partial success with some errors",
+        insertedCount: error.result?.insertedCount || 0,
+        errors: errorDetails,
+      });
+    }
+
     res.status(500).json({
       message: "Error processing file",
       error: error.message,
