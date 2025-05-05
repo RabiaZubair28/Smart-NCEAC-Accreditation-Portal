@@ -71,7 +71,7 @@ function App() {
           <Route path="/enrolled-students/:id" element={<EnrolledStudents />} />
 
           <Route
-            path="/course/enrolled-students/:courseCode/:id"
+            path="/course/enrolled-students/:courseCode/:id/:insid"
             element={<EnrolledStudents2 />}
           />
           <Route path="/" element={<Hero />} />

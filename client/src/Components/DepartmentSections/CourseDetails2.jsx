@@ -814,7 +814,7 @@ const CourseDetails2 = () => {
                 className="bg-[#1F2C73] text-white px-4 py-2 mb-3 rounded-md"
                 onClick={() =>
                   navigate(
-                    `/course/enrolled-students/${courseInfo.courseCode}/${courseInfo._id}`
+                    `/course/enrolled-students/${courseInfo.courseCode}/${courseInfo._id}/${courseInfo.instructorId}`
                   )
                 }
               >

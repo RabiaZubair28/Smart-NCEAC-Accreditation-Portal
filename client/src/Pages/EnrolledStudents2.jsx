@@ -12,69 +12,95 @@ const EnrolledStudents2 = () => {
   const [students, setStudents] = useState([]);
   const [selectedStudents, setSelectedStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInstructorLoading, setIsInstructorLoading] = useState(true);
+  const [instructorError, setInstructorError] = useState(null);
+  const [courseLoading, setCourseLoading] = useState(true);
+  const [courseError, setCourseError] = useState(null);
   const id = params.id;
+  const [details, setDetails] = useState(null);
 
   // Fetch Course Info
   const getCourseInfo = async () => {
     try {
+      setCourseLoading(true);
+      setCourseError(null);
       const response = await fetch(
         `https://iba-nceac.site/api/data/course/id/${params.id}`
       );
-      if (response.ok) {
-        const data = await response.json();
-        setCourseInfo(data);
-        fetchStudents(data.students);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch course: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setCourseInfo(data);
+      if (data.students && data.students.length > 0) {
+        await fetchStudents(data.students);
       }
     } catch (error) {
-      console.log(`Error fetching course data: ${error}`);
+      console.error(`Error fetching course data: ${error}`);
+      setCourseError(error.message);
+    } finally {
+      setCourseLoading(false);
     }
   };
 
-  console.log(courseInfo);
-
-  const [details, setDetails] = useState({});
   const getDetails = async () => {
+    if (!params.insid) {
+      setInstructorError("No instructor ID provided");
+      setIsInstructorLoading(false);
+      return;
+    }
+
     try {
+      setIsInstructorLoading(true);
+      setInstructorError(null);
       const response = await fetch(
-        `https://iba-nceac.site/api/data/instructor/${courseInfo.instructorId}`
+        `https://iba-nceac.site/api/data/instructor/${params.insid}`
       );
-      if (response.ok) {
-        const data = await response.json();
-        setDetails(data);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+
+      const data = await response.json();
+      setDetails(data);
     } catch (error) {
       console.error("Fetch error:", error);
+      setInstructorError(error.message);
+    } finally {
+      setIsInstructorLoading(false);
     }
   };
 
-  console.log(details);
-
+  // Fetch all required data on mount
   useEffect(() => {
     getCourseInfo();
-  }, []);
-
-  useEffect(() => {
     getDetails();
-  }, []);
-
-  console.log(params);
+  }, [params.id, params.insid]);
 
   // Fetch Student Details
   const fetchStudents = async (studentIds) => {
     try {
+      setIsLoading(true);
       const studentPromises = studentIds.map((id) =>
-        fetch(`https://iba-nceac.site/api/students/id/${id}`).then((res) =>
-          res.json()
-        )
+        fetch(`https://iba-nceac.site/api/students/id/${id}`).then((res) => {
+          if (!res.ok) {
+            throw new Error(`Failed to fetch student ${id}`);
+          }
+          return res.json();
+        })
       );
       const studentData = await Promise.all(studentPromises);
-      setStudents(studentData);
+      setStudents(studentData.filter((student) => student !== null));
     } catch (error) {
-      console.log(`Error fetching students: ${error}`);
+      console.error(`Error fetching students: ${error}`);
+      setCourseError(`Error loading some students: ${error.message}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Handle checkbox selection
   const handleCheckboxChange = (studentId) => {
     setSelectedStudents((prev) =>
       prev.includes(studentId)
@@ -83,7 +109,6 @@ const EnrolledStudents2 = () => {
     );
   };
 
-  // Handle bulk unenroll
   const handleBulkUnenroll = async () => {
     if (selectedStudents.length === 0) {
       alert("Please select at least one student to unenroll");
@@ -118,7 +143,7 @@ const EnrolledStudents2 = () => {
       }
 
       alert(data.message || "Students unenrolled successfully!");
-      getCourseInfo();
+      await getCourseInfo(); // Refresh the data
       setSelectedStudents([]);
     } catch (error) {
       console.error("Error unenrolling students:", error);
@@ -128,18 +153,91 @@ const EnrolledStudents2 = () => {
     }
   };
 
+  // Combined loading state
+  if (isInstructorLoading || courseLoading) {
+    return (
+      <div>
+        <Navbar />
+        <div className="flex justify-center items-center h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      </div>
+    );
+  }
+
+  // Combined error state
+  if (instructorError || courseError) {
+    return (
+      <div>
+        <Navbar />
+        <div className="p-6 mt-[65px]">
+          {instructorError && (
+            <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <svg
+                    className="h-5 w-5 text-red-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm text-red-700">
+                    Error loading instructor details: {instructorError}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+          {courseError && (
+            <div className="bg-red-50 border-l-4 border-red-500 p-4">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <svg
+                    className="h-5 w-5 text-red-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm text-red-700">
+                    Error loading course data: {courseError}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Navbar />
       <div className="p-6">
         <div className="mt-[65px] mb-6">
           <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="flex flex-col justify-start   md:flex-row md:justify-between xs:flex-col xs:justify-start sm:flex-row sm:justify-between lg:flex-row lg:justify-between xl:flex-row xl:justify-between   items-start gap-y-3 xs:gap-y-3 sm:gap-y-0 md:gap-y-0 lg:gap-y-0 xl:gap-y-0 xxl:gap-y-0 mb-6">
+            <div className="flex flex-col justify-start md:flex-row md:justify-between items-start gap-y-3 md:gap-y-0 mb-6">
               <div>
                 <h2 className="text-xl font-bold text-[#1F2C73]">
-                  Enrolled Students
+                  Enrolled Students {courseInfo && `- ${courseInfo.courseName}`}
                 </h2>
-                {selectedStudents.length > 0 && details.role == "HOD" && (
+                {selectedStudents.length > 0 && details?.role === "HOD" && (
                   <p className="text-sm text-gray-500 mt-1">
                     {selectedStudents.length} student(s) selected for
                     unenrollment
@@ -190,7 +288,7 @@ const EnrolledStudents2 = () => {
             </div>
 
             {/* Instructions */}
-            {details.role == "HOD" && (
+            {details?.role === "HOD" && (
               <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
                 <div className="flex">
                   <div className="flex-shrink-0">
@@ -218,73 +316,96 @@ const EnrolledStudents2 = () => {
               </div>
             )}
 
+            {/* Error message if no students */}
+            {courseInfo?.students?.length === 0 && (
+              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <svg
+                      className="h-5 w-5 text-blue-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-sm text-blue-700">
+                      No students are currently enrolled in this course.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="mb-6 space-y-6 flex flex-col">
               {students.length > 0 ? (
-                students
-                  .filter((student) => student !== null)
-                  .map((student, index) => (
-                    <motion.div
-                      key={student._id}
-                      className={`flex items-center justify-between p-3 rounded-lg w-full ${
-                        selectedStudents.includes(student._id)
-                          ? "bg-red-50 border border-red-200"
-                          : "bg-gray-50"
-                      }`}
-                      whileHover={{ scale: 1.005 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 10,
-                      }}
-                    >
-                      <div className="flex flex-col xs:flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row xxl:flex-row justify-between w-full items-center">
-                        <div className="flex items-center space-x-4">
-                          <label className="inline-flex items-center">
-                            {details.role == "HOD" && (
-                              <input
-                                type="checkbox"
-                                checked={selectedStudents.includes(student._id)}
-                                onChange={() =>
-                                  handleCheckboxChange(student._id)
-                                }
-                                className="h-5 w-5 text-red-600 rounded focus:ring-red-500"
-                              />
-                            )}
-                            <span className="ml-2 text-gray-700">
-                              {index + 1}.
-                            </span>
-                          </label>
-                          <div className="flex flex-col">
-                            <span className="font-medium text-gray-900">
-                              {student.firstName} {student.lastName}
-                            </span>
-                            <span className="text-sm text-gray-500">
-                              {student.studentId} • {student.studentEmail}
-                            </span>
-                            <span className="text-sm text-gray-500">
-                              {student.degreeProgram} - {student.studentBatch} (
-                              {student.studentSection})
-                            </span>
-                          </div>
+                students.map((student, index) => (
+                  <motion.div
+                    key={student._id}
+                    className={`flex items-center justify-between p-3 rounded-lg w-full ${
+                      selectedStudents.includes(student._id)
+                        ? "bg-red-50 border border-red-200"
+                        : "bg-gray-50"
+                    }`}
+                    whileHover={{ scale: 1.005 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 10,
+                    }}
+                  >
+                    <div className="flex flex-col md:flex-row justify-between w-full items-center">
+                      <div className="flex items-center space-x-4">
+                        <label className="inline-flex items-center">
+                          {details?.role === "HOD" && (
+                            <input
+                              type="checkbox"
+                              checked={selectedStudents.includes(student._id)}
+                              onChange={() => handleCheckboxChange(student._id)}
+                              className="h-5 w-5 text-red-600 rounded focus:ring-red-500"
+                            />
+                          )}
+                          <span className="ml-2 text-gray-700">
+                            {index + 1}.
+                          </span>
+                        </label>
+                        <div className="flex flex-col">
+                          <span className="font-medium text-gray-900">
+                            {student.firstName} {student.lastName}
+                          </span>
+                          <span className="text-sm text-gray-500">
+                            {student.studentId} • {student.studentEmail}
+                          </span>
+                          <span className="text-sm text-gray-500">
+                            {student.degreeProgram} - {student.studentBatch} (
+                            {student.studentSection})
+                          </span>
                         </div>
                       </div>
-                      <div className="flex space-x-2 mx-4">
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="bg-[#1F2C73] text-white px-3 py-1 rounded-md text-sm"
-                          onClick={() =>
-                            navigate(
-                              `/course/${courseCode}/${id}/student/giveGrades/${student._id}`
-                            )
-                          }
-                        >
-                          Go to Student
-                        </motion.button>
-                      </div>
-                    </motion.div>
-                  ))
-              ) : (
+                    </div>
+                    <div className="flex space-x-2 mx-4">
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="bg-[#1F2C73] text-white px-3 py-1 rounded-md text-sm"
+                        onClick={() =>
+                          navigate(
+                            `/course/${courseCode}/${id}/student/giveGrades/${student._id}`
+                          )
+                        }
+                      >
+                        Go to Student
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                ))
+              ) : courseInfo?.students?.length > 0 ? (
                 <div className="text-center py-8">
                   <svg
                     className="mx-auto h-12 w-12 text-gray-400"
@@ -300,13 +421,13 @@ const EnrolledStudents2 = () => {
                     />
                   </svg>
                   <h3 className="mt-2 text-sm font-medium text-gray-900">
-                    No enrolled students
+                    Error loading students
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">
-                    There are currently no students enrolled in this course.
+                    We couldn't load the student data. Please try again.
                   </p>
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         </div>

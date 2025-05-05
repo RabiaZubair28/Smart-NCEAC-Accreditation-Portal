@@ -39,6 +39,19 @@ router.post("/addAssessment", async (req, res) => {
         .json({ message: "Invalid totalMarks for new assessment" });
     }
 
+    // Check for duplicate assessment name
+    const isDuplicate = course.assessments.some(
+      (a) =>
+        a.assessmentName.trim().toLowerCase() ===
+        newAssessment.assessmentName.trim().toLowerCase()
+    );
+
+    if (isDuplicate) {
+      return res
+        .status(409)
+        .json({ message: "Assessment with this name already exists" });
+    }
+
     // Process questions
     const processedQuestions = newAssessment.questions.map(
       (question, questionIndex) => {
@@ -92,19 +105,17 @@ router.post("/addAssessment", async (req, res) => {
 
     // Update each student document to add the new assessment in their respective courses
     const updateStudentPromises = course.students.map(async (studentId) => {
-      // Find student and the specific course in their "courses" array
       return Student.findOneAndUpdate(
-        { _id: studentId, "courses.courseId": courseId }, // Match student by courseId
+        { _id: studentId, "courses.courseId": courseId },
         {
           $push: {
-            "courses.$.assessments": updatedAssessment, // Add the assessment to the correct course in the student's "courses" array
+            "courses.$.assessments": updatedAssessment,
           },
         },
         { new: true }
       );
     });
 
-    // Wait for all the student documents to be updated
     await Promise.all(updateStudentPromises);
 
     res.status(201).json({
@@ -435,7 +446,6 @@ router.put("/:assessmentId", async (req, res) => {
   try {
     const { assessmentId } = req.params;
     const updatedAssessment = req.body;
-    const assessmentObjId = new mongoose.Types.ObjectId(assessmentId);
 
     // Step 1: Find the course containing the assessment
     const course = await Course.findOne({ "assessments._id": assessmentId });
@@ -454,8 +464,28 @@ router.put("/:assessmentId", async (req, res) => {
     }
 
     const oldAssessmentName = oldAssessment.assessmentName;
+    const newAssessmentName = updatedAssessment.assessmentName?.trim();
 
-    // Step 2: Update the assessment in the course document
+    // Step 2: Check uniqueness only if name is changed
+    if (
+      newAssessmentName &&
+      newAssessmentName.toLowerCase() !== oldAssessmentName.toLowerCase()
+    ) {
+      const isDuplicate = course.assessments.some(
+        (a) =>
+          a.assessmentName.trim().toLowerCase() ===
+            newAssessmentName.toLowerCase() && a._id.toString() !== assessmentId
+      );
+
+      if (isDuplicate) {
+        return res.status(409).json({
+          message:
+            "Another assessment with this name already exists in this course",
+        });
+      }
+    }
+
+    // Step 3: Update the assessment in the course document
     const updatedCourse = await Course.findOneAndUpdate(
       { "assessments._id": assessmentId },
       {
@@ -475,24 +505,29 @@ router.put("/:assessmentId", async (req, res) => {
         .json({ message: "Failed to update assessment in course" });
     }
 
-    // Step 3: Update assessment in students
+    // Step 4: Update assessment in students
     const updateStudents = await Student.updateMany(
       {
+        "courses.courseId": course._id,
         "courses.assessments.assessmentName": oldAssessmentName,
       },
       {
         $set: {
-          "courses.$[].assessments.$[a].assessmentName":
+          "courses.$[c].assessments.$[a].assessmentName":
             updatedAssessment.assessmentName,
-          "courses.$[].assessments.$[a].assessmentType":
+          "courses.$[c].assessments.$[a].assessmentType":
             updatedAssessment.assessmentType,
-          "courses.$[].assessments.$[a].totalMarks":
+          "courses.$[c].assessments.$[a].totalMarks":
             updatedAssessment.totalMarks,
-          "courses.$[].assessments.$[a].questions": updatedAssessment.questions,
+          "courses.$[c].assessments.$[a].questions":
+            updatedAssessment.questions,
         },
       },
       {
-        arrayFilters: [{ "a.assessmentName": oldAssessmentName }],
+        arrayFilters: [
+          { "c.courseId": course._id },
+          { "a.assessmentName": oldAssessmentName },
+        ],
         multi: true,
       }
     );
