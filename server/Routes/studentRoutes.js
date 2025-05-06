@@ -267,12 +267,15 @@ router.put("/:id/updatePLO", async (req, res) => {
 
     // Fetch student from DB
     const student = await Student.findById(studentId);
+
     if (!student) {
       return res.status(404).json({ message: "Student not found" });
     }
 
-    // Initialize an array of 12 PLOs with default "0"
-    const achievedPLOs = Array(12).fill("0");
+    // Ensure achievedPLOs is initialized
+    if (!student.achievedPLOs || student.achievedPLOs.length !== 12) {
+      student.achievedPLOs = Array(12).fill("0");
+    }
 
     student.courses.forEach((course) => {
       course.assessments.forEach((assessment) => {
@@ -280,27 +283,21 @@ router.put("/:id/updatePLO", async (req, res) => {
           const { totalQuestionMarks, obtainedMarks, threshold, assignedPLO } =
             question;
 
-          const ploIndex = parseInt(assignedPLO?.replace("PLO", ""), 10) - 1;
-          if (
-            !isNaN(ploIndex) &&
-            obtainedMarks >= (threshold / 100) * totalQuestionMarks
-          ) {
-            achievedPLOs[ploIndex] = "1";
+          if (obtainedMarks >= (threshold / 100) * totalQuestionMarks) {
+            const ploIndex = parseInt(assignedPLO.replace("PLO", "")) - 1;
+            if (!isNaN(ploIndex) && ploIndex >= 0 && ploIndex < 12) {
+              student.achievedPLOs[ploIndex] = "1";
+            }
           }
         });
       });
     });
 
-    // Update achievedPLOs using findOneAndUpdate (no .save, no version error)
-    const updatedStudent = await Student.findOneAndUpdate(
-      { _id: studentId },
-      { $set: { achievedPLOs } },
-      { new: true }
-    );
+    await student.save();
 
     res.json({
       message: "PLOs updated successfully",
-      PLO: updatedStudent.achievedPLOs,
+      achievedPLOs: student.achievedPLOs,
     });
   } catch (error) {
     console.error("Error updating PLOs:", error);
