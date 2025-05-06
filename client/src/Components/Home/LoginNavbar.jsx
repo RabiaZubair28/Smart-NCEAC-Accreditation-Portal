@@ -66,7 +66,7 @@ export default function Navbar() {
         </Link>
 
         <div className="flex md:space-x-4 space-x-2">
-          <button
+          {/* <button
             className={`md:px-8 px-4 md:py-3 rounded-lg md:font-medium text-sm flex items-center space-x-2 transition-all duration-300 ${
               scrolled
                 ? "bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
@@ -75,7 +75,7 @@ export default function Navbar() {
             onClick={handleBackToHome} // Redirect to home page
           >
             Back to Home
-          </button>
+          </button> */}
 
           <button
             className={`md:px-8 px-4 py-2 sm:py-3 rounded-lg md:font-medium text-xs flex items-center space-x-2 transition-all duration-300 ${
