@@ -253,6 +253,7 @@ const GoToStudent = () => {
   // Fetch data on component mount
   useEffect(() => {
     fetchStudentData();
+    handleGradeSubmit();
   }, [id]);
 
   // Loading state
