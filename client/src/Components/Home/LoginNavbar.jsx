@@ -2,10 +2,13 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 import logo from "../../assets/logo2.jpg";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate(); // Initialize useNavigate for redirecting after logout
+  const goBack = () => window.history.back();
+  const goForward = () => window.history.forward();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -76,7 +79,22 @@ export default function Navbar() {
           >
             Back to Home
           </button> */}
-
+          <div className="flex justify-center gap-6 p-4">
+            <button
+              onClick={goBack}
+              className="p-2 rounded-full hover:bg-gray-200 transition"
+              title="Go Back"
+            >
+              <ArrowLeft size={28} />
+            </button>
+            <button
+              onClick={goForward}
+              className="p-2 rounded-full hover:bg-gray-200 transition"
+              title="Go Forward"
+            >
+              <ArrowRight size={28} />
+            </button>
+          </div>
           <button
             className={`md:px-8 px-4 py-2 sm:py-3 rounded-lg md:font-medium text-xs flex items-center space-x-2 transition-all duration-300 ${
               scrolled
