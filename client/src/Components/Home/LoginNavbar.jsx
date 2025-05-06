@@ -60,7 +60,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`absolute w-full top-0 z-50 transition-all duration-300 ease-in-out py-2 ${
+      className={`absolute w-full top-0 z-50 transition-all duration-300 ease-in-out PY-0 ${
         scrolled ? "bg-white/70 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
     >
