@@ -5,6 +5,8 @@ import Navbar from "../Components/Home/LoginNavbar.jsx";
 const GoToStudent2 = () => {
   // State variables
   const { id, courseCode } = useParams();
+  const params = useParams();
+  console.log(params);
   const navigate = useNavigate();
   const [student, setStudent] = useState(null);
   const [courses, setCourses] = useState([]);
@@ -17,9 +19,10 @@ const GoToStudent2 = () => {
   const [currentAssessment, setCurrentAssessment] = useState(null);
   const [currentCourse, setCurrentCourse] = useState(null);
   const [gradeInput, setGradeInput] = useState("");
-  console.log(id);
-  // Fetch student data
 
+  console.log(id);
+  console.log(courseCode);
+  // Fetch student data
   const fetchStudentData = async () => {
     try {
       setLoading(true);
@@ -32,6 +35,7 @@ const GoToStudent2 = () => {
 
       const data = await response.json();
       setStudent(data);
+      console.log(student);
 
       if (data.courses?.length > 0) {
         const formattedCourses = data.courses.map((course) => ({
@@ -52,7 +56,7 @@ const GoToStudent2 = () => {
     }
   };
 
-  const updatePLOs = async (id) => {
+  const updatePLOs = async () => {
     try {
       const response = await fetch(
         `https://iba-nceac.site/api/students/${id}/updatePLO`,
@@ -196,14 +200,10 @@ const GoToStudent2 = () => {
     }
   };
 
+  // Fetch data on component mount
   useEffect(() => {
-    if (id) {
-      console.log("ID found:", id);
-      fetchStudentData();
-    }
+    fetchStudentData();
   }, [id]);
-
-  console.log(student);
 
   // Loading state
   if (loading) {
@@ -211,7 +211,7 @@ const GoToStudent2 = () => {
       <div className="p-6">
         <Navbar />
         <div className="mt-24 flex justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#1F2C73]"></div>
+          <div className="animate-spin rounded-md h-12 w-12 border-t-2 border-b-2 border-[#1F2C73]"></div>
         </div>
       </div>
     );
@@ -288,15 +288,15 @@ const GoToStudent2 = () => {
                   {/* Course Header */}
                   <div className="p-6 border-b border-gray-200">
                     <div className="flex flex-col md:flex-row md:justify-between md:items-start">
-                      <div className="mb-4 md:mb-0">
+                      <div className="mb-4 md:mb-0 ">
                         <h3 className="text-xl font-semibold text-[#1F2C73]">
                           {course.courseName} ({course.courseCode})
                         </h3>
-                        <p className="text-gray-600 mt-1">
+                        <p className="text-gray-600 mt-1 pe-10">
                           {course.courseDescription}
                         </p>
                       </div>
-                      <div className="bg-[#1F2C73] text-white px-3 py-1 rounded-full text-sm font-medium">
+                      <div className="bg-[#1F2C73] text-white w-[150px] text-center px-3 py-1 rounded-xl text-sm font-medium">
                         {course.creditHours} Credit Hours
                       </div>
                     </div>
@@ -322,23 +322,24 @@ const GoToStudent2 = () => {
                                   {assessment.assessmentName}
                                 </h5>
                                 <div className="flex flex-wrap gap-3 mt-2 text-sm">
-                                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                                  <span className="bg-gray-200 text-black  px-2 py-1 rounded">
                                     Type: {assessment.assessmentType}
                                   </span>
-                                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded">
+                                  <span className="bg-gray-200 text-black  px-2 py-1 rounded">
                                     Total: {assessment.totalMarks}
                                   </span>
+
                                   <span
                                     className={`px-2 py-1 rounded ${
                                       assessment.obtainedMarks >=
                                       assessment.totalMarks * 0.5
-                                        ? "bg-green-100 text-green-800"
-                                        : "bg-red-100 text-red-800"
+                                        ? "bg-gray-200 text-black "
+                                        : "bg-gray-200 text-black "
                                     }`}
                                   >
                                     Obtained: {assessment.obtainedMarks}
                                   </span>
-                                  <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded">
+                                  <span className="bg-gray-200 text-black px-2 py-1 rounded">
                                     Percentage:{" "}
                                     {(
                                       (assessment.obtainedMarks /
@@ -409,9 +410,9 @@ const GoToStudent2 = () => {
                                                   question
                                                 )
                                               }
-                                              className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm"
+                                              className="bg-black text-white px-3 py-1 rounded text-sm"
                                             >
-                                              Assign
+                                              Update
                                             </button>
                                           </div>
                                         </div>
@@ -427,7 +428,7 @@ const GoToStudent2 = () => {
                                                   key={clo._id}
                                                   className="text-xs bg-gray-200 text-gray-800 px-2 py-1 rounded"
                                                 >
-                                                  CLO {clo.cloId} (Weight:{" "}
+                                                  CLO: {clo.cloId} (Weight:{" "}
                                                   {clo.cloWeight}
                                                   %)
                                                 </span>
@@ -435,6 +436,17 @@ const GoToStudent2 = () => {
                                             </div>
                                           </div>
                                         )}
+
+                                        <div className="mt-2">
+                                          <p className="text-sm font-medium text-gray-700">
+                                            Covered PLOs:
+                                          </p>
+                                          <div className="flex flex-wrap gap-2 mt-1">
+                                            <span className="text-xs bg-gray-200 text-gray-800 px-2 py-1 rounded">
+                                              PLO: {question.assignedPLO}
+                                            </span>
+                                          </div>
+                                        </div>
                                       </div>
                                     )
                                   )}
@@ -466,9 +478,17 @@ const GoToStudent2 = () => {
       {modalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-xl font-bold text-[#1F2C73] mb-4">
-              Give Grades to this question
-            </h3>
+            <div className="flex flex-row justify-between mb-4">
+              <h3 className="text-xl font-bold text-black ">
+                Give Grades to this question
+              </h3>
+              <button
+                onClick={closeGradeModal}
+                className="px-2 py-0.5 bg-red-500 text-white rounded-sm text-sm cursor-pointer"
+              >
+                X
+              </button>
+            </div>
             <div className="mb-4">
               <label className="block text-gray-700 mb-2">
                 Enter Obtained Marks (Max: {currentQuestion.totalQuestionMarks})
@@ -483,19 +503,13 @@ const GoToStudent2 = () => {
                 step="0.5"
               />
             </div>
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={closeGradeModal}
-                className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
-              >
-                Cancel
-              </button>
+            <div className="flex justify-end gap-3 w-full">
               <button
                 onClick={() => {
                   handleGradeSubmit();
-                  updatePLOs(student._id);
+                  updatePLOs();
                 }}
-                className="px-4 py-2 bg-[#1F2C73] text-white rounded-md hover:bg-[#17255A]"
+                className="px-4 py-2 bg-black text-white rounded-md hover:bg-[#17255A] w-full"
               >
                 Submit
               </button>
