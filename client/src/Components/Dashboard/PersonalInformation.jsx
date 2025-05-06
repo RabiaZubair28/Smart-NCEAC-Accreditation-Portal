@@ -190,10 +190,15 @@ const DeleteModal = ({ title, onClose, onConfirm }) => (
 );
 
 const PersonalInformation = () => {
-  const [message, setMessage] = useState({ text: "", type: "" });
   const [editField, setEditField] = useState(null);
   const [deleteField, setDeleteField] = useState(null);
   const [tempValue, setTempValue] = useState("");
+  const [message, setMessage] = useState({ text: "", type: "" });
+
+  const showMessage = (text, type) => {
+    setMessage({ text, type });
+    setTimeout(() => setMessage({ text: "", type: "" }), 3000);
+  };
 
   const params = useParams();
 
@@ -211,11 +216,6 @@ const PersonalInformation = () => {
       console.error("Fetch error:", error);
       showMessage("Failed to fetch details", "error");
     }
-  };
-
-  const showMessage = (text, type) => {
-    setMessage({ text, type });
-    setTimeout(() => setMessage({ text: "", type: "" }), 3000);
   };
 
   const updateField = async (field) => {
@@ -287,7 +287,7 @@ const PersonalInformation = () => {
     ["province", details.province],
     ["city", details.city],
     ["designation", details.designation],
-    ["role", details.role],
+
     ["religion", details.religion],
     ["officeNumber", details.officeNumber],
     ["officeLocation", details.officeLocation],
@@ -335,25 +335,23 @@ const PersonalInformation = () => {
                 </div>
               </div>
 
-              {details.role === "HOD" && (
-                <div className="absolute top-2 right-2 flex gap-2">
-                  <button
-                    onClick={() => {
-                      setTempValue(value || "");
-                      setEditField(key);
-                    }}
-                    className="p-1 text-green-600 hover:bg-green-100 rounded-full"
-                  >
-                    <Edit size={18} />
-                  </button>
-                  <button
-                    onClick={() => setDeleteField(key)}
-                    className="p-1 text-red-600 hover:bg-red-100 rounded-full"
-                  >
-                    <Trash2 size={18} />
-                  </button>
-                </div>
-              )}
+              <div className="absolute top-2 right-2 flex gap-2">
+                <button
+                  onClick={() => {
+                    setTempValue(value || "");
+                    setEditField(key);
+                  }}
+                  className="p-1 text-green-600 hover:bg-green-100 rounded-full"
+                >
+                  <Edit size={18} />
+                </button>
+                <button
+                  onClick={() => setDeleteField(key)}
+                  className="p-1 text-red-600 hover:bg-red-100 rounded-full"
+                >
+                  <Trash2 size={18} />
+                </button>
+              </div>
             </motion.div>
           ))}
         </div>
