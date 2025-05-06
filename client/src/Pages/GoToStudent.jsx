@@ -197,6 +197,7 @@ const GoToStudent = () => {
             if (assessment._id === currentAssessment._id) {
               const updatedQuestions = assessment.questions.map((question) => {
                 if (question._id === currentQuestion._id) {
+                  // Only update obtainedMarks; keep threshold as is
                   return { ...question, obtainedMarks };
                 }
                 return question;
@@ -243,7 +244,10 @@ const GoToStudent = () => {
       );
 
       if (!response.ok) throw new Error("Failed to update marks");
+      const ploResponse = await updatePLOs();
+      console.log(ploResponse);
       closeGradeModal();
+      fetchStudentData();
     } catch (err) {
       console.error("Error:", err);
       alert("Failed to update marks. Please try again.");
@@ -253,7 +257,6 @@ const GoToStudent = () => {
   // Fetch data on component mount
   useEffect(() => {
     fetchStudentData();
-    handleGradeSubmit();
   }, [id]);
 
   // Loading state
