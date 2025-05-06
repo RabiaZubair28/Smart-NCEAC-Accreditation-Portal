@@ -109,9 +109,11 @@ function OrderStatus() {
                                 : "bg-red-100 text-red-600"
                             }`}
                           >
-                            {calculateSectionPLO(batch, section, ploIndex) == 1
+                            {/* {calculateSectionPLO(batch, section, ploIndex) > 1
                               ? "✔"
-                              : "✘"}
+                              : "✘"} */}
+
+                            {calculateSectionPLO(batch, section, ploIndex)}
                           </span>
                         </td>
                       ))}
