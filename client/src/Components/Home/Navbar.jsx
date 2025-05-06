@@ -50,7 +50,7 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center space-x-8 xl:space-x-16">
-          {["Home", "Working", "Login"].map((label) => (
+          {["Home", "About", "Login"].map((label) => (
             <Link
               key={label}
               to={`/${label.toLowerCase().replace(" ", "-")}`}
@@ -89,7 +89,7 @@ export default function Navbar() {
               backgroundPosition: "center",
             }}
           >
-            {["Home", "Working", "Login"].map((label) => (
+            {["Home", "About", "Login"].map((label) => (
               <Link
                 key={label}
                 to={`/${label.toLowerCase().replace(" ", "-")}`}
