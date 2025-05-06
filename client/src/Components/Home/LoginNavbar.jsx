@@ -80,7 +80,7 @@ export default function Navbar() {
           >
             Back to Home
           </button> */}
-          <div className="flex justify-center gap-4 p-4">
+          <div className="flex justify-center gap-4 px-4">
             <button
               onClick={goBack}
               className="p-2 rounded-full transition bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
