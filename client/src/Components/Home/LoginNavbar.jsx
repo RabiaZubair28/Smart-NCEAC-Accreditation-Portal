@@ -66,7 +66,7 @@ export default function Navbar() {
     >
       <div className="max-w-[1800px] mx-auto px-5 md:px-5 flex justify-between items-center py-3">
         <Link to="/" className="flex items-center">
-          <img src={logo} alt="Liam Crest" className="h-10" />
+          <img src={logo} alt="Liam Crest" className="h-12" />
         </Link>
 
         <div className="flex md:space-x-3 space-x-2">
