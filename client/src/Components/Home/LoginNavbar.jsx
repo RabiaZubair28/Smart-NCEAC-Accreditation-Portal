@@ -64,7 +64,7 @@ export default function Navbar() {
         scrolled ? "bg-white/70 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
     >
-      <div className="max-w-[1800px] mx-auto px-5 md:px-5 flex justify-between items-center py-2">
+      <div className="max-w-[1800px] mx-auto px-5 md:px-5 flex justify-between items-center py-3">
         <Link to="/" className="flex items-center">
           <img src={logo} alt="Liam Crest" className="h-10" />
         </Link>
