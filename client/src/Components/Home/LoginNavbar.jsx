@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate(); // Initialize useNavigate for redirecting after logout
+
   const goBack = () => window.history.back();
   const goForward = () => window.history.forward();
 
@@ -95,8 +96,9 @@ export default function Navbar() {
               <ArrowRight size={28} />
             </button>
           </div>
+
           <button
-            className={`md:px-8 px-4 py-2 sm:py-2 rounded-lg md:font-medium text-md flex items-center h-[80px] space-x-2 transition-all duration-300 ${
+            className={`md:px-8 px-4 py-2 sm:py-3 rounded-lg md:font-medium text-xs flex items-center space-x-2 transition-all duration-300 ${
               scrolled
                 ? "bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
                 : "bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
