@@ -98,7 +98,7 @@ export default function Navbar() {
           </div>
           <div>
             <button
-              className={`md:px-8 px-4 rounded-lg md:font-medium font-medium text-center flex items-center space-x-2 h-[50px] w-[100px] transition-all duration-300 ${
+              className={`md:px-8 px-4 rounded-lg md:font-medium font-medium text-center flex items-center justify-center h-[50px] w-[100px] transition-all duration-300 ${
                 scrolled
                   ? "bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
                   : "bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
