@@ -190,14 +190,12 @@ const GoToStudent2 = () => {
           }),
         }
       );
-      if (response.ok) {
-        updatePLOs();
-        window.location.reload();
-      }
 
       if (!response.ok) throw new Error("Failed to update marks");
-
+      const ploResponse = await updatePLOs();
+      console.log(ploResponse);
       closeGradeModal();
+      fetchStudentData();
     } catch (err) {
       console.error("Error:", err);
       alert("Failed to update marks. Please try again.");
