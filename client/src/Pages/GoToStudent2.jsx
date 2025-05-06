@@ -192,6 +192,7 @@ const GoToStudent2 = () => {
       );
       if (response.ok) {
         updatePLOs();
+        window.location.reload();
       }
 
       if (!response.ok) throw new Error("Failed to update marks");
@@ -206,6 +207,7 @@ const GoToStudent2 = () => {
   // Fetch data on component mount
   useEffect(() => {
     fetchStudentData();
+    updatePLOs();
   }, [id]);
 
   // Loading state
