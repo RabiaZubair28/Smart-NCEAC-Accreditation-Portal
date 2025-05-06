@@ -71,7 +71,7 @@ const GoToStudent2 = () => {
       const result = await response.json();
       if (response.ok) {
         console.log("Updated PLOs:", result.PLO);
-        alert("PLOs updated successfully!");
+        showMessage("PLOs updated successfully!", "success");
       } else {
         console.error(result.message);
       }
@@ -123,6 +123,12 @@ const GoToStudent2 = () => {
     setGradeInput("");
   };
 
+  const [message, setMessage] = useState({ text: "", type: "" });
+
+  const showMessage = (text, type) => {
+    setMessage({ text, type });
+    setTimeout(() => setMessage({ text: "", type: "" }), 3000);
+  };
   // Handle grade submission
   const handleGradeSubmit = async () => {
     // Validation
@@ -211,6 +217,15 @@ const GoToStudent2 = () => {
   if (loading) {
     return (
       <div className="p-6">
+        {message.text && (
+          <div
+            className={`fixed top-4 right-4 p-4 rounded-md shadow-lg z-50 ${
+              message.type === "success" ? "bg-green-500" : "bg-red-500"
+            } text-white`}
+          >
+            {message.text}
+          </div>
+        )}
         <Navbar />
         <div className="mt-24 flex justify-center">
           <div className="animate-spin rounded-md h-12 w-12 border-t-2 border-b-2 border-[#1F2C73]"></div>
@@ -241,6 +256,16 @@ const GoToStudent2 = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
+
+      {message.text && (
+        <div
+          className={`fixed top-4 right-4 p-4 rounded-md shadow-lg z-50 ${
+            message.type === "success" ? "bg-green-500" : "bg-red-500"
+          } text-white`}
+        >
+          {message.text}
+        </div>
+      )}
       <div className="container mx-auto px-4 py-24">
         {/* Student Profile */}
         <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8">

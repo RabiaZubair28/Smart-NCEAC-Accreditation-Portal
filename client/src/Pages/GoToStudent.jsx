@@ -100,7 +100,7 @@ const GoToStudent = () => {
       const result = await response.json();
       if (response.ok) {
         console.log("Updated PLOs:", result.PLO);
-        alert("PLOs updated successfully!");
+        showMessage("PLOs updated successfully!", "success");
       } else {
         console.error(result.message);
       }
@@ -254,6 +254,13 @@ const GoToStudent = () => {
     }
   };
 
+  const [message, setMessage] = useState({ text: "", type: "" });
+
+  const showMessage = (text, type) => {
+    setMessage({ text, type });
+    setTimeout(() => setMessage({ text: "", type: "" }), 3000);
+  };
+
   // Fetch data on component mount
   useEffect(() => {
     fetchStudentData();
@@ -292,6 +299,15 @@ const GoToStudent = () => {
   // Main render
   return (
     <div className="min-h-screen bg-gray-50">
+      {message.text && (
+        <div
+          className={`fixed top-4 right-4 p-4 rounded-md shadow-lg z-50 ${
+            message.type === "success" ? "bg-green-500" : "bg-red-500"
+          } text-white`}
+        >
+          {message.text}
+        </div>
+      )}
       <Navbar />
       <div className="container mx-auto px-4 py-24">
         {/* Student Profile */}
