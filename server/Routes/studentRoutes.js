@@ -272,10 +272,7 @@ router.put("/:id/updatePLO", async (req, res) => {
     }
 
     // Initialize an array of 12 PLOs with default "0"
-
-    if (!student.achievedPLOs || student.achievedPLOs.length !== 12) {
-      student.achievedPLOs = Array(12).fill("0");
-    }
+    const achievedPLOs = Array(12).fill("0");
 
     student.courses.forEach((course) => {
       course.assessments.forEach((assessment) => {
