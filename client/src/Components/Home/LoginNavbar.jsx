@@ -96,17 +96,18 @@ export default function Navbar() {
               <ArrowRight size={28} />
             </button>
           </div>
-
-          <button
-            className={`md:px-8 px-4 rounded-lg md:font-medium text-xs flex items-center space-x-2 transition-all duration-300 ${
-              scrolled
-                ? "bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
-                : "bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
-            }`}
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
+          <div>
+            <button
+              className={`md:px-8 px-4 rounded-lg md:font-medium text-xs flex items-center space-x-2 h-[50px] w-[100px] transition-all duration-300 ${
+                scrolled
+                  ? "bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
+                  : "bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
+              }`}
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </div>
     </nav>
