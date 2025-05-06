@@ -205,7 +205,6 @@ const GoToStudent2 = () => {
   // Fetch data on component mount
   useEffect(() => {
     fetchStudentData();
-    updatePLOs();
   }, [id]);
 
   // Loading state
