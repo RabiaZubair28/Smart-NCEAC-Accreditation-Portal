@@ -60,13 +60,13 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`absolute w-full top-0 z-50 transition-all duration-300 ease-in-out py-4 ${
+      className={`absolute w-full top-0 z-50 transition-all duration-300 ease-in-out py-2 ${
         scrolled ? "bg-white/70 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
     >
       <div className="max-w-[1800px] mx-auto px-5 md:px-5 flex justify-between items-center">
         <Link to="/" className="flex items-center">
-          <img src={logo} alt="Liam Crest" className="h-12" />
+          <img src={logo} alt="Liam Crest" className="h-10" />
         </Link>
 
         <div className="flex md:space-x-4 space-x-2">
