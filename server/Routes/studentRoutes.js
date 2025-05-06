@@ -277,7 +277,7 @@ router.put("/:id/updatePLO", async (req, res) => {
           const { totalQuestionMarks, obtainedMarks, threshold, assignedPLO } =
             question;
 
-          if (totalQuestionMarks >= (threshold / 100) * obtainedMarks) {
+          if (obtainedMarks >= (threshold / 100) * totalQuestionMarks) {
             if (assignedPLO == "PLO1") {
               student.achievedPLOs[0] = "1";
             } else if (assignedPLO == "PLO2") {

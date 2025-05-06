@@ -5,6 +5,8 @@ import Navbar from "../Components/Home/LoginNavbar.jsx";
 const GoToStudent2 = () => {
   // State variables
   const { id, courseCode } = useParams();
+  const params = useParams();
+  console.log(params);
   const navigate = useNavigate();
   const [student, setStudent] = useState(null);
   const [courses, setCourses] = useState([]);
@@ -18,6 +20,8 @@ const GoToStudent2 = () => {
   const [currentCourse, setCurrentCourse] = useState(null);
   const [gradeInput, setGradeInput] = useState("");
 
+  console.log(id);
+  console.log(courseCode);
   // Fetch student data
   const fetchStudentData = async () => {
     try {
