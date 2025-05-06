@@ -267,55 +267,47 @@ router.put("/:id/updatePLO", async (req, res) => {
 
     // Fetch student from DB
     const student = await Student.findById(studentId);
-
     if (!student) {
       return res.status(404).json({ message: "Student not found" });
     }
+
+    // Initialize an array of 12 PLOs with default "0"
+    const achievedPLOs = Array(12).fill("0");
+
     student.courses.forEach((course) => {
       course.assessments.forEach((assessment) => {
         assessment.questions.forEach((question) => {
           const { totalQuestionMarks, obtainedMarks, threshold, assignedPLO } =
             question;
 
-          if (obtainedMarks >= (threshold / 100) * totalQuestionMarks) {
-            if (assignedPLO == "PLO1") {
-              student.achievedPLOs[0] = "1";
-            } else if (assignedPLO == "PLO2") {
-              student.achievedPLOs[1] = "1";
-            } else if (assignedPLO == "PLO3") {
-              student.achievedPLOs[2] = "1";
-            } else if (assignedPLO == "PLO4") {
-              student.achievedPLOs[3] = "1";
-            } else if (assignedPLO == "PLO5") {
-              student.achievedPLOs[4] = "1";
-            } else if (assignedPLO == "PLO6") {
-              student.achievedPLOs[5] = "1";
-            } else if (assignedPLO == "PLO7") {
-              student.achievedPLOs[6] = "1";
-            } else if (assignedPLO == "PLO8") {
-              student.achievedPLOs[7] = "1";
-            } else if (assignedPLO == "PLO9") {
-              student.achievedPLOs[8] = "1";
-            } else if (assignedPLO == "PLO10") {
-              student.achievedPLOs[9] = "1";
-            } else if (assignedPLO == "PLO11") {
-              student.achievedPLOs[10] = "1";
-            } else if (assignedPLO == "PLO12") {
-              student.achievedPLOs[11] = "1";
-            }
+          const ploIndex = parseInt(assignedPLO?.replace("PLO", ""), 10) - 1;
+          if (
+            !isNaN(ploIndex) &&
+            obtainedMarks >= (threshold / 100) * totalQuestionMarks
+          ) {
+            achievedPLOs[ploIndex] = "1";
           }
         });
       });
     });
 
-    await student.save();
+    // Update achievedPLOs using findOneAndUpdate (no .save, no version error)
+    const updatedStudent = await Student.findOneAndUpdate(
+      { _id: studentId },
+      { $set: { achievedPLOs } },
+      { new: true }
+    );
 
-    res.json({ message: "PLOs updated successfully", PLO: student.PLO });
+    res.json({
+      message: "PLOs updated successfully",
+      PLO: updatedStudent.achievedPLOs,
+    });
   } catch (error) {
     console.error("Error updating PLOs:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
 router.get("/department/:id", async (req, res) => {
   try {
     const departmentId = req.params.id;
