@@ -81,7 +81,7 @@ function App() {
           <Route path="/student" element={<Student />} />
           <Route path="/batches" element={<Batches />} />
           <Route path="/assessments" element={<Tab03screen08 />} />
-          <Route path="/working" element={<Working />} />
+          <Route path="/about" element={<Working />} />
           <Route path="/contact" element={<ContactForm />} />
           <Route path="/add-instructor" element={<Instructor />} />
           <Route path="/enrolled-students/:id" element={<EnrolledStudents />} />
