@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 // Pricing data
 const plans = [
@@ -38,6 +39,7 @@ const plans = [
 function PricingSection() {
   const [hoveredCard, setHoveredCard] = useState(null);
 
+  const navigate = useNavigate();
   return (
     <div className=" bg-[#16215c] pb-9 lg:pb-24  px-4 ">
       <div className="max-w-7xl mx-auto">
@@ -90,8 +92,11 @@ function PricingSection() {
                       ? "bg-[#F4A340] text-white hover:bg-[#f4a340ee] shadow-md"
                       : "bg-[#A5E1E9] text-[#16205D] hover:bg-[#95d1d9]"
                   }`}
+                onClick={() => {
+                  navigate("/login");
+                }}
               >
-                Choose plan
+                Go to {plan.name}
               </button>
             </motion.div>
           ))}
