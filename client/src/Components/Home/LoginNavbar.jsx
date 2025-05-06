@@ -82,14 +82,14 @@ export default function Navbar() {
           <div className="flex justify-center gap-6 p-4">
             <button
               onClick={goBack}
-              className="p-2 rounded-full hover:bg-gray-200 transition"
+              className="p-2 rounded-full transition bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
               title="Go Back"
             >
               <ArrowLeft size={28} />
             </button>
             <button
               onClick={goForward}
-              className="p-2 rounded-full hover:bg-gray-200 transition"
+              className="p-2 rounded-full bg-[#1F2C73] text-white hover:bg-[#2B4C7E] transition"
               title="Go Forward"
             >
               <ArrowRight size={28} />
