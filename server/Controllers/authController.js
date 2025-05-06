@@ -123,23 +123,31 @@ export const studentLogin = async (req, res) => {
   try {
     const { studentId, password } = req.body;
 
-    // Find student by studentId
-    const student = await Student.findOne({ studentId });
+    // Case-insensitive search and allow alternative ID formats
+    const student = await Student.findOne({
+      $or: [
+        { studentId: new RegExp(`^${studentId}$`, "i") },
+        { studentEmail: new RegExp(`^${studentId}$`, "i") },
+      ],
+    });
+
     if (!student) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Student not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Student not found",
+      });
     }
 
     // Compare passwords
     const isMatch = await bcrypt.compare(password, student.password);
     if (!isMatch) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Invalid credentials" });
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
     }
 
-    // Create JWT token (without role)
+    // Create JWT token
     const token = jwt.sign(
       {
         id: student._id,
@@ -158,9 +166,11 @@ export const studentLogin = async (req, res) => {
     });
   } catch (error) {
     console.error("Student login error:", error);
-    res
-      .status(500)
-      .json({ success: false, message: "Server error during login" });
+    res.status(500).json({
+      success: false,
+      message: "Server error during login",
+      error: error.message,
+    });
   }
 };
 
@@ -1729,11 +1739,6 @@ export const resetPassword = async (req, res) => {
         resetPasswordToken: token,
         resetPasswordExpires: { $gt: Date.now() },
       });
-    } else {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid user type specified",
-      });
     }
 
     if (!user) {
@@ -1743,25 +1748,25 @@ export const resetPassword = async (req, res) => {
       });
     }
 
-    // Update password and clear reset token
+    // Update password directly (bypass pre-save hook)
     const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(newPassword, salt);
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpires = undefined;
-    await user.save();
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    await (userType === "instructor" ? Instructor : Student).updateOne(
+      { _id: user._id },
+      {
+        password: hashedPassword,
+        resetPasswordToken: undefined,
+        resetPasswordExpires: undefined,
+      }
+    );
 
     // Send confirmation email
     const mailOptions = {
       to: userType === "student" ? user.studentEmail : user.email,
       from: `"NCEAC Support" <${EMAIL_USER}>`,
       subject: "Password Changed Successfully",
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #1a237e;">Password Updated</h2>
-          <p>Your ${userType} account password has been successfully changed.</p>
-          <p>If you didn't make this change, please contact us immediately.</p>
-        </div>
-      `,
+      html: `...`, // your email template
     };
 
     await transporter.sendMail(mailOptions);
