@@ -190,6 +190,9 @@ const GoToStudent2 = () => {
           }),
         }
       );
+      if (response.ok) {
+        updatePLOs();
+      }
 
       if (!response.ok) throw new Error("Failed to update marks");
 
@@ -507,7 +510,6 @@ const GoToStudent2 = () => {
               <button
                 onClick={() => {
                   handleGradeSubmit();
-                  updatePLOs();
                 }}
                 className="px-4 py-2 bg-black text-white rounded-md hover:bg-[#17255A] w-full"
               >
