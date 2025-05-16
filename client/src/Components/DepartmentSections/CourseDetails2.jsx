@@ -120,7 +120,7 @@ const CourseDetails2 = () => {
 
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/assessments/add-question/${params.id}/${assessmentId}`,
+        `http://localhost:1234/api/assessments/add-question/${params.id}/${assessmentId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -151,7 +151,7 @@ const CourseDetails2 = () => {
   ) => {
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/assessments/delete-question/${assessmentId}/${questionId}`,
+        `http://localhost:1234/api/assessments/delete-question/${assessmentId}/${questionId}`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -184,7 +184,7 @@ const CourseDetails2 = () => {
   const getCourseInfo = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/data/course/id/${params.id}`,
+        `http://localhost:1234/api/data/course/id/${params.id}`,
         { method: "GET" }
       );
 
@@ -218,7 +218,7 @@ const CourseDetails2 = () => {
       };
 
       const response = await fetch(
-        `https://iba-nceac.site/api/data/course/id/${params.id}`,
+        `http://localhost:1234/api/data/course/id/${params.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -241,7 +241,7 @@ const CourseDetails2 = () => {
   const handleDeletePrerequisites = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/data/course/id/${params.id}/prerequisites`,
+        `http://localhost:1234/api/data/course/id/${params.id}/prerequisites`,
         { method: "PUT" }
       );
 
@@ -271,7 +271,7 @@ const CourseDetails2 = () => {
 
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/data/course/${params.id}/add-clo`,
+        `http://localhost:1234/api/data/course/${params.id}/add-clo`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -307,7 +307,7 @@ const CourseDetails2 = () => {
     const updatedCLOs = [...courseInfo.CLO];
     updatedCLOs[index] = updatedCLO;
 
-    fetch(`https://iba-nceac.site/api/data/course/${params.id}/clo`, {
+    fetch(`http://localhost:1234/api/data/course/${params.id}/clo`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -334,7 +334,7 @@ const CourseDetails2 = () => {
   const handleDeleteCLO = async (index) => {
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/data/course/${params.id}/delete-clo`,
+        `http://localhost:1234/api/data/course/${params.id}/delete-clo`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -417,7 +417,7 @@ const CourseDetails2 = () => {
 
     try {
       const response = await fetch(
-        "https://iba-nceac.site/api/assessments/addAssessment",
+        "http://localhost:1234/api/assessments/addAssessment",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -448,7 +448,7 @@ const CourseDetails2 = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/assessments/${assessmentToEdit._id}`,
+        `http://localhost:1234/api/assessments/${assessmentToEdit._id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -479,7 +479,7 @@ const CourseDetails2 = () => {
     const fetchDepartment = async () => {
       try {
         const res = await axios.get(
-          `https://iba-nceac.site/api/data/department/${departmentId}`
+          `http://localhost:1234/api/data/department/${departmentId}`
         );
         setDepartmentInfo(res.data);
         console.log(departmentInfo);
@@ -542,7 +542,7 @@ const CourseDetails2 = () => {
 
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/assessments/${assessmentId}/questions/${questionId}`,
+        `http://localhost:1234/api/assessments/${assessmentId}/questions/${questionId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -573,7 +573,7 @@ const CourseDetails2 = () => {
   const handleDeleteAssessment = async (courseId, assessmentId) => {
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/assessments/deleteAssessment/${courseId}/${assessmentId}`,
+        `http://localhost:1234/api/assessments/deleteAssessment/${courseId}/${assessmentId}`,
         { method: "DELETE" }
       );
 
@@ -668,7 +668,7 @@ const CourseDetails2 = () => {
       const getBatches = async () => {
         try {
           const response = await fetch(
-            `https://iba-nceac.site/api/batches/all-batches/${courseInfo.departmentId}`,
+            `http://localhost:1234/api/batches/all-batches/${courseInfo.departmentId}`,
             { method: "GET" }
           );
 
@@ -688,7 +688,7 @@ const CourseDetails2 = () => {
   const fetchStudents = async (batchName, section) => {
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/students/fetchByBatch?batchName=${batchName}&section=${section}`
+        `http://localhost:1234/api/students/fetchByBatch?batchName=${batchName}&section=${section}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -755,7 +755,7 @@ const CourseDetails2 = () => {
     try {
       const results = await Promise.allSettled(
         selectedStudents.map((studentId) =>
-          fetch(`https://iba-nceac.site/api/students/${studentId}/add-course`, {
+          fetch(`http://localhost:1234/api/students/${studentId}/add-course`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ courseId: capturedCourseId }),

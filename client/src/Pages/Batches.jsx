@@ -16,7 +16,7 @@ const Batches = () => {
 
     try {
       const response = await axios.post(
-        "https://iba-nceac.site/api/batches/create-batch",
+        "http://localhost:1234/api/batches/create-batch",
         {
           batchName,
           numberOfSections: parseInt(numberOfSections, 10),

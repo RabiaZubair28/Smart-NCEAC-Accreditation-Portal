@@ -32,7 +32,7 @@ export default function Layout({
   const getDetails = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/data/instructor/${params.id}`,
+        `http://localhost:1234/api/data/instructor/${params.id}`,
         {
           method: "GET",
         }

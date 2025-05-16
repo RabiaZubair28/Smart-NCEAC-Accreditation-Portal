@@ -29,7 +29,7 @@ export default function OngoingBatches() {
 
     try {
       const res = await axios.post(
-        `https://iba-nceac.site/upload-pdf/${batchId}`,
+        `http://localhost:1234/upload-pdf/${batchId}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -81,7 +81,7 @@ export default function OngoingBatches() {
 
     try {
       const response = await axios.post(
-        "https://iba-nceac.site/api/students/upload",
+        "http://localhost:1234/api/students/upload",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -106,7 +106,7 @@ export default function OngoingBatches() {
 
     try {
       const response = await axios.post(
-        "https://iba-nceac.site/api/batches/create-batch",
+        "http://localhost:1234/api/batches/create-batch",
         {
           batchName,
           numberOfSections: parseInt(numberOfSections, 10),
@@ -131,7 +131,7 @@ export default function OngoingBatches() {
   const getBatches = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/batches/all-batches/${id}`,
+        `http://localhost:1234/api/batches/all-batches/${id}`,
         {
           method: "GET",
         }

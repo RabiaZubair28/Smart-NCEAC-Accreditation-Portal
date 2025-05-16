@@ -40,7 +40,7 @@ export default function Navbar() {
 
       // Call logout API to clear cookie (if applicable)
       await axios.post(
-        "https://iba-nceac.site/api/auth/logout",
+        "http://localhost:1234/api/auth/logout",
         {},
         { withCredentials: true }
       );

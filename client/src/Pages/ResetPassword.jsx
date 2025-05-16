@@ -28,7 +28,7 @@ function ResetPassword() {
 
     try {
       const response = await axios.post(
-        "https://iba-nceac.site/api/auth/reset-password",
+        "http://localhost:1234/api/auth/reset-password",
         {
           token,
           userType,

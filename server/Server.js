@@ -11,20 +11,23 @@ import dataRoutes from "./Routes/dataRoutes.js";
 import studentRoutes from "./Routes/studentRoutes.js";
 import batchRoutes from "./Routes/batchRoutes.js";
 import assessmentsRoutes from "./Routes/assessmentsRoutes.js";
+import Instructor from "./Models/instructor-model.js";
 import accreditationRoutes from "./Routes/accreditationRoutes.js";
+import mongoose from "mongoose";
 import Batch from "./Models/batch-model.js";
+import dashboardRoutes from "./Routes/dashboardRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
 const corsOptions = {
-  origin: ["https://iba-nceac.site"],
+  origin: [
+    "http://localhost:5173",
+    "https://extensions.aitopia.ai/languages/lang/get/lang/en",
+  ],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
   credentials: true,
   optionSuccessStatus: 200,
 };
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -52,7 +55,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/data", dataRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/batches", batchRoutes);
-
+app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/assessments", assessmentsRoutes);
 app.use("/api/accreditation", accreditationRoutes);
 
@@ -87,10 +90,39 @@ app.post("/upload-pdf/:batchId", upload.single("file"), async (req, res) => {
   }
 });
 
-app.use(express.static(path.join(__dirname, "..", "/client/dist")));
-console.log(__dirname);
-app.get("*", (_, res) => {
-  res.sendFile(path.resolve(__dirname, "..", "client", "dist", "index.html"));
+app.put("/api/updateCover/:id", async (req, res) => {
+  const { id } = req.params;
+  const { avatar } = req.body;
+
+  console.log("Received ID:", id);
+  console.log(avatar);
+
+  // Validate ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid ID format" });
+  }
+
+  try {
+    // Ensure img01 is valid
+    if (avatar && typeof avatar !== "string") {
+      return res.status(400).json({ message: "Invalid img01 URL" });
+    }
+
+    const updatedClient = await Instructor.findByIdAndUpdate(
+      id,
+      { avatar: avatar },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedClient) {
+      return res.status(404).json({ message: "Client not found" });
+    }
+
+    res.json(updatedClient);
+  } catch (error) {
+    console.error("Error updating client:", error);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 app.listen(port, () => {

@@ -14,7 +14,7 @@ const Instructor = () => {
   const getInstructorInfo = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/data/instructor/${id}`,
+        `http://localhost:1234/api/data/instructor/${id}`,
         {
           method: "GET",
         }

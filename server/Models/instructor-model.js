@@ -21,6 +21,9 @@ const instructorSchema = new mongoose.Schema({
     required: true,
     maxlength: 50,
   },
+  avatar: {
+    type: String,
+  },
   prefix: {
     type: String,
   },

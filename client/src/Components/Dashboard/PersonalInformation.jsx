@@ -206,7 +206,7 @@ const PersonalInformation = () => {
   const getDetails = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/data/instructor/${params.id}`
+        `http://localhost:1234/api/data/instructor/${params.id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -233,7 +233,7 @@ const PersonalInformation = () => {
 
     try {
       const response = await axios.put(
-        `https://iba-nceac.site/api/data/instructor/edit/${details._id}`,
+        `http://localhost:1234/api/data/instructor/edit/${details._id}`,
         { [field]: tempValue, action: `edit${capitalize(field)}` }
       );
       if (response.status === 200) {
@@ -250,7 +250,7 @@ const PersonalInformation = () => {
   const deleteFieldValue = async (field) => {
     try {
       const response = await axios.put(
-        `https://iba-nceac.site/api/data/instructor/${details._id}`,
+        `http://localhost:1234/api/data/instructor/${details._id}`,
         { [field]: "", action: `delete${capitalize(field)}` }
       );
       if (response.status === 200) {

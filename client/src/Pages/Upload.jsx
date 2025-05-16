@@ -15,7 +15,7 @@ const Upload = () => {
 
     try {
       const res = await axios.post(
-        "https://iba-nceac.site/upload-pdf",
+        "http://localhost:1234/upload-pdf",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

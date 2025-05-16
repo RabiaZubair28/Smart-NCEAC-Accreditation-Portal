@@ -28,7 +28,7 @@ const GoToStudent = () => {
       setError(null);
 
       const response = await fetch(
-        `https://iba-nceac.site/api/students/id/${id}`
+        `http://localhost:1234/api/students/id/${id}`
       );
       if (!response.ok) throw new Error("Failed to fetch student data");
 
@@ -88,7 +88,7 @@ const GoToStudent = () => {
   const updatePLOs = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.site//api/students/${id}/updatePLO`,
+        `http://localhost:1234//api/students/${id}/updatePLO`,
         {
           method: "PUT",
           headers: {
@@ -112,7 +112,7 @@ const GoToStudent = () => {
   const fetchSectionsByBatchName = async (studentBatch) => {
     try {
       const res = await fetch(
-        `https://iba-nceac.site/api/batches/sections/by-batch-name/${studentBatch}`
+        `http://localhost:1234/api/batches/sections/by-batch-name/${studentBatch}`
       );
       const data = await res.json();
       setBatch(data[0]);
@@ -151,7 +151,7 @@ const GoToStudent = () => {
   const updateSection = async () => {
     try {
       const res = await fetch(
-        `https://iba-nceac.site/api/students/${student._id}`,
+        `http://localhost:1234/api/students/${student._id}`,
         {
           method: "PUT",
           headers: {
@@ -226,7 +226,7 @@ const GoToStudent = () => {
 
       // Update server
       const response = await fetch(
-        `https://iba-nceac.site/api/students/${id}/courses/${currentCourse._id}/assessments/${currentAssessment._id}`,
+        `http://localhost:1234/api/students/${id}/courses/${currentCourse._id}/assessments/${currentAssessment._id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

@@ -36,7 +36,7 @@ export default function DepartmentInfo() {
   const getDepartmentInfo = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/data/department/${params.id}`,
+        `http://localhost:1234/api/data/department/${params.id}`,
         {
           method: "GET",
         }
@@ -75,7 +75,7 @@ export default function DepartmentInfo() {
       return;
     }
 
-    fetch(`https://iba-nceac.site/api/data/department/${params.id}/plo`, {
+    fetch(`http://localhost:1234/api/data/department/${params.id}/plo`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -104,7 +104,7 @@ export default function DepartmentInfo() {
   const handleSaveSchema = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/data/department/${params.id}/schema`,
+        `http://localhost:1234/api/data/department/${params.id}/schema`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -128,7 +128,7 @@ export default function DepartmentInfo() {
   const handleDeleteSchema = async () => {
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/data/department/${params.id}/schema`,
+        `http://localhost:1234/api/data/department/${params.id}/schema`,
         {
           method: "DELETE",
         }
@@ -148,7 +148,7 @@ export default function DepartmentInfo() {
 
   // Handle delete PLO
   const handleDeletePLO = (ploIndex) => {
-    fetch(`https://iba-nceac.site/api/data/department/${params.id}/plo`, {
+    fetch(`http://localhost:1234/api/data/department/${params.id}/plo`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -186,7 +186,7 @@ export default function DepartmentInfo() {
 
     try {
       const response = await fetch(
-        `https://iba-nceac.site/api/data/department/${params.id}/add-plo`,
+        `http://localhost:1234/api/data/department/${params.id}/add-plo`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

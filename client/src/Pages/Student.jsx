@@ -23,7 +23,7 @@ const Student = () => {
 
     try {
       const response = await axios.post(
-        "https://iba-nceac.site/api/students/upload",
+        "http://localhost:1234/api/students/upload",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

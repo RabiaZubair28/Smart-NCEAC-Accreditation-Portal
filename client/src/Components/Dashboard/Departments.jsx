@@ -19,7 +19,7 @@ export default function Courses() {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://iba-nceac.site/api/data/departments",
+        "http://localhost:1234/api/data/departments",
         {
           method: "GET",
         }
@@ -89,7 +89,7 @@ export default function Courses() {
 
     try {
       const response = await fetch(
-        "https://iba-nceac.site/api/data/department",
+        "http://localhost:1234/api/data/department",
         {
           method: "POST",
           headers: {

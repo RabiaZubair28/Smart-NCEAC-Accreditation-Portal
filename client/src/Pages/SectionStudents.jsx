@@ -21,7 +21,7 @@ const SectionStudents = () => {
   const fetchStudents = async () => {
     try {
       const res = await fetch(
-        `https://iba-nceac.site/api/students/${batchId}/${section}`
+        `http://localhost:1234/api/students/${batchId}/${section}`
       );
       const studentData = await res.json();
       setStudents(studentData);
@@ -85,8 +85,6 @@ const SectionStudents = () => {
                             className="bg-[#1F2C73] text-white px-4 py-2 mb-6 rounded-md"
                             onClick={() =>
                               navigate(`/student/giveGrades/${student._id}`)
-
-                              
                             }
                           >
                             Go to Student

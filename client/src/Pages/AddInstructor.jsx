@@ -31,7 +31,7 @@ const AddInstructor = ({ onClose, onSuccess }) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "https://iba-nceac.site/api/data/instructor",
+        "http://localhost:1234/api/data/instructor",
         {
           method: "POST",
           headers: {

@@ -34,7 +34,7 @@ export default function AccreditationDetails() {
     const fetchAccreditation = async () => {
       try {
         const res = await axios.get(
-          `https://iba-nceac.site/api/accreditation/getAccreditation/${departmentId}`
+          `http://localhost:1234/api/accreditation/getAccreditation/${departmentId}`
         );
         setData(res.data);
       } catch (err) {
@@ -52,7 +52,7 @@ export default function AccreditationDetails() {
     const getBatches = async () => {
       try {
         const response = await fetch(
-          "https://iba-nceac.site/api/batches/all-batches",
+          "http://localhost:1234/api/batches/all-batches",
           {
             method: "GET",
           }
@@ -87,7 +87,7 @@ export default function AccreditationDetails() {
 
     try {
       const response = await axios.post(
-        "https://iba-nceac.site/api/students/upload",
+        "http://localhost:1234/api/students/upload",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -107,7 +107,7 @@ export default function AccreditationDetails() {
   const handleSubmit = async () => {
     try {
       const response = await axios.put(
-        `https://iba-nceac.site/api/accreditation/updateAccreditation/${data._id}`,
+        `http://localhost:1234/api/accreditation/updateAccreditation/${data._id}`,
         {
           [currentField]:
             currentField === "PhDInstructors" ||
@@ -150,7 +150,7 @@ export default function AccreditationDetails() {
       console.log("New value:", editValue);
 
       const response = await axios.put(
-        `https://iba-nceac.site/api/accreditation/${data._id}`, // Updated endpoint
+        `http://localhost:1234/api/accreditation/${data._id}`, // Updated endpoint
         {
           [currentField]: editValue,
         }
