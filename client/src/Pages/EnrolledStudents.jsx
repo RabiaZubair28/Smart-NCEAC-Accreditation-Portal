@@ -42,7 +42,7 @@ const EnrolledStudents = () => {
 
   useEffect(() => {
     getCourseInfo();
-  }, []);
+  }, [params.id, params.insid]);
 
   console.log(students);
 
@@ -95,7 +95,9 @@ const EnrolledStudents = () => {
                             whileTap={{ scale: 0.95 }}
                             className="bg-[#1F2C73] text-white px-4 py-2 mb-6 rounded-md"
                             onClick={() =>
-                              navigate(`/student/giveGrades/${student._id}`)
+                              navigate(
+                                `/student/giveGrades/${student._id}/${params.id}`
+                              )
                             }
                           >
                             Go to Student

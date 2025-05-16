@@ -35,40 +35,57 @@ import StudentLogin from "./Pages/StudentLogin.jsx";
 import GoToStudent from "./Pages/GoToStudent.jsx";
 import Dashboard from "./Components/Dashboard/Dashboard.jsx";
 import EnrolledStudents2 from "./Pages/EnrolledStudents2.jsx";
-
+import ImstructorDashboard2 from "./Components/Dashboard/ImstructorDashboard2.jsx";
 import GoToStudent2 from "./Pages/GoToStudent2.jsx";
 import Dashboardy from "./Components/Dashboard/Dashboardy.jsx";
 import SectionStudents from "./Pages/SectionStudents.jsx";
 import Upload from "./Pages/Upload.jsx";
 import ChatBot from "./Components/ChatBot.jsx";
 import ResetPassword from "./Pages/ResetPassword.jsx";
+import ImstructorDashboard from "./Components/Dashboard/ImstructorDashboard.jsx";
+import CourseInfoLayout from "./Components/Dashboard/CourseInfoLayout.jsx";
+import Subcourses from "./Components/Dashboard/Subcourses.jsx";
+import SubDepts from "./Components/Dashboard/SubDepts.jsx";
 function App() {
   return (
     <Router>
       <div className="min-h-screen bg-white">
         <Routes>
-          <Route path="/course/:id" element={<CourseDetails />} />
+          <Route path="/course/:id/:insid" element={<CourseDetails />} />
+          <Route
+            path=":insid/instructor-course/:courseCode/:id"
+            element={
+              <CourseInfoLayout
+                personalContent={<PersonalInfo />}
+                researchContent={<ImstructorDashboard2 />}
+                coursesContent={<Subcourses />}
+                departmentContent={<Departments />}
+                chatbot={<ChatBot />}
+              />
+            }
+          />
+
           <Route
             path="/instructor-course/:courseCode/:id"
             element={<CourseDetails2 />}
           />
 
           <Route
-            path="/department/:id"
+            path=":insid/department/:id"
             element={
               <DepartmentLayout
-                departmentInfo={<DepartmentInfo />}
-                ongoingCourses={<OngoingCourses />}
-                ongoingBatches={<OngoingBatches />}
-                facultyInfo={<FacultyInfo />}
-                cloplomapping={<CloPloMapping />}
-                accreditationDetails={<AccreditationDetails />}
-                dashboard={<Dashboardy />}
+                personalContent={<PersonalInfo />}
+                researchContent={<ImstructorDashboard2 />}
+                coursesContent={<Subcourses />}
+                departmentContent={<SubDepts />}
                 chatbot={<ChatBot />}
               />
             }
           />
-          <Route path="/enrolled-students/:id" element={<EnrolledStudents />} />
+          <Route
+            path="/enrolled-students/:id/:insid"
+            element={<EnrolledStudents />}
+          />
 
           <Route
             path="/course/enrolled-students/:courseCode/:id/:insid"
@@ -84,14 +101,20 @@ function App() {
           <Route path="/about" element={<Working />} />
           <Route path="/contact" element={<ContactForm />} />
           <Route path="/add-instructor" element={<Instructor />} />
-          <Route path="/enrolled-students/:id" element={<EnrolledStudents />} />
-          <Route path="/student/giveGrades/:id" element={<GoToStudent />} />
           <Route
-            path="/course/:courseCode/:courseId/student/giveGrades/:id"
+            path="/enrolled-students/:id/:insid"
+            element={<EnrolledStudents />}
+          />
+          <Route
+            path="/student/giveGrades/:id/:insid"
+            element={<GoToStudent />}
+          />
+          <Route
+            path="/course/:courseCode/:courseId/student/giveGrades/:id/:insid"
             element={<GoToStudent2 />}
           />
           <Route
-            path="/section/:batchId/:section"
+            path="/section/:batchId/:section/:insid"
             element={<SectionStudents />}
           />
           <Route path="/upload" element={<Upload />} />
@@ -100,7 +123,7 @@ function App() {
             element={
               <Layout
                 personalContent={<PersonalInfo />}
-                researchContent={<ResearchInfo />}
+                researchContent={<ImstructorDashboard />}
                 coursesContent={<Courses />}
                 departmentContent={<Departments />}
                 chatbot={<ChatBot />}
@@ -108,6 +131,8 @@ function App() {
             }
           />
 
+          <Route path="/personal-info/:id" element={<PersonalInfo />} />
+          <Route path="/research-info/:id" element={<ResearchInfo />} />
           <Route
             path="/student/:id"
             element={

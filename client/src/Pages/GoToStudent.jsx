@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Navbar from "../Components/Home/LoginNavbar.jsx";
+import Navbar from "../Components/Home/Navbar3.jsx";
 import { motion } from "framer-motion";
 
 const GoToStudent = () => {
@@ -399,7 +399,7 @@ const GoToStudent = () => {
                           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4">
                             <div>
                               <h5 className="font-bold text-lg text-[#1F2C73]">
-                                {assessment.assessmentName} (Achieved: PLO1)
+                                {assessment.assessmentName}
                               </h5>
                               <div className="flex flex-wrap gap-3 mt-2 text-sm">
                                 <span className="bg-gray-200 text-black px-2 py-1 rounded">

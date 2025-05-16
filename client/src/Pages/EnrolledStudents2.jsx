@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import Navbar from "../Components/Home/LoginNavbar.jsx";
+import Navbar from "../Components/Home/Navbar3.jsx";
 
 const EnrolledStudents2 = () => {
   const params = useParams();
@@ -396,7 +396,7 @@ const EnrolledStudents2 = () => {
                         className="bg-[#1F2C73] text-white px-3 py-1 rounded-md text-sm"
                         onClick={() =>
                           navigate(
-                            `/course/${courseCode}/${id}/student/giveGrades/${student._id}`
+                            `/course/${courseCode}/${id}/student/giveGrades/${student._id}/${courseInfo.instructorId}`
                           )
                         }
                       >

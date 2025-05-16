@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import Navbar from "../Components/Home/LoginNavbar.jsx";
+import Navbar from "../Components/Home/Navbar3.jsx";
 import { SectionIcon } from "lucide-react";
 
 const SectionStudents = () => {
@@ -84,7 +84,9 @@ const SectionStudents = () => {
                             whileTap={{ scale: 0.95 }}
                             className="bg-[#1F2C73] text-white px-4 py-2 mb-6 rounded-md"
                             onClick={() =>
-                              navigate(`/student/giveGrades/${student._id}`)
+                              navigate(
+                                `/student/giveGrades/${student._id}/${params.insid}`
+                              )
                             }
                           >
                             Go to Student

@@ -2,35 +2,81 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { nceacQA, generateFullContext, getSystemPrompt } from '../data/nceacData.js';
 
 // Initialize the Gemini API with your API key
-const API_KEY = 'AIzaSyAj47t8s1gelyqqUrcHzQTZ-7M2Y_-O-nI';
+const API_KEY = 'AIzaSyCJzEM2Cay0FqzHfNVawjof6ZmK3PgpvYE';
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-// Function to find direct matches in our NCEAC QA dataset
-const findDirectMatch = (query) => {
-  // Normalize query for comparison
+// Function to calculate string similarity using Levenshtein distance
+const levenshteinDistance = (str1, str2) => {
+  const track = Array(str2.length + 1).fill(null).map(() =>
+    Array(str1.length + 1).fill(null));
+  for (let i = 0; i <= str1.length; i++) track[0][i] = i;
+  for (let j = 0; j <= str2.length; j++) track[j][0] = j;
+  for (let j = 1; j <= str2.length; j++) {
+    for (let i = 1; i <= str1.length; i++) {
+      const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
+      track[j][i] = Math.min(
+        track[j][i - 1] + 1,
+        track[j - 1][i] + 1,
+        track[j - 1][i - 1] + indicator
+      );
+    }
+  }
+  return track[str2.length][str1.length];
+};
+
+// Calculate similarity score between two strings
+const calculateSimilarity = (str1, str2) => {
+  const maxLength = Math.max(str1.length, str2.length);
+  if (maxLength === 0) return 1.0;
+  return (maxLength - levenshteinDistance(str1, str2)) / maxLength;
+};
+
+// Extract keywords from text
+const extractKeywords = (text) => {
+  return text.toLowerCase()
+    .replace(/[^\w\s]/g, '')
+    .split(/\s+/)
+    .filter(word => word.length > 2);
+};
+
+// Calculate keyword overlap between two texts
+const calculateKeywordOverlap = (text1, text2) => {
+  const keywords1 = new Set(extractKeywords(text1));
+  const keywords2 = new Set(extractKeywords(text2));
+  const intersection = new Set([...keywords1].filter(x => keywords2.has(x)));
+  const union = new Set([...keywords1, ...keywords2]);
+  return intersection.size / union.size;
+};
+
+// Enhanced matching function that combines multiple techniques
+const findBestMatch = (query) => {
   const normalizedQuery = query.toLowerCase().trim();
   
-  // Try to find an exact match first
+  // Try exact match first
   const exactMatch = nceacQA.find(qa => 
     qa.question.toLowerCase() === normalizedQuery
   );
-  
   if (exactMatch) return exactMatch.answer;
   
-  // Try to find a partial match (if query contains the question)
-  const partialMatches = nceacQA.filter(qa => 
-    normalizedQuery.includes(qa.question.toLowerCase()) || 
-    qa.question.toLowerCase().includes(normalizedQuery)
-  );
-  
-  // Return the most relevant partial match if available
-  if (partialMatches.length > 0) {
-    // Sort by length - shorter matches are likely more specific
-    const bestMatch = partialMatches.sort((a, b) => 
-      Math.abs(a.question.length - normalizedQuery.length) - 
-      Math.abs(b.question.length - normalizedQuery.length)
-    )[0];
+  // Calculate scores for each QA pair
+  const scores = nceacQA.map(qa => {
+    const stringSimilarity = calculateSimilarity(normalizedQuery, qa.question.toLowerCase());
+    const keywordScore = calculateKeywordOverlap(normalizedQuery, qa.question);
     
+    // Combine scores with weights
+    const combinedScore = (stringSimilarity * 0.6) + (keywordScore * 0.4);
+    
+    return {
+      answer: qa.answer,
+      score: combinedScore
+    };
+  });
+  
+  // Sort by score and get the best match
+  const bestMatch = scores.sort((a, b) => b.score - a.score)[0];
+  
+  // Return if the match is good enough (threshold: 0.6)
+  if (bestMatch.score >= 0.6) {
     return bestMatch.answer;
   }
   
@@ -40,17 +86,17 @@ const findDirectMatch = (query) => {
 // Process user query and get response using Gemini
 export const processQuery = async (query) => {
   try {
-    // First, check for direct matches in our dataset
-    const directMatch = findDirectMatch(query);
-    if (directMatch) {
+    // First, try enhanced pattern matching
+    const bestMatch = findBestMatch(query);
+    if (bestMatch) {
       return {
-        text: directMatch,
+        text: bestMatch,
         source: 'local'
       };
     }
     
-    // If no direct match, use Gemini API
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+    // If no good match found, use Gemini API
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     
     // Generate chat context using our QA data
     const context = generateFullContext();
