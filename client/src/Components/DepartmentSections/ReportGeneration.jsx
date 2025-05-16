@@ -1225,12 +1225,11 @@ const ReportGeneration = () => {
     return <div className="text-center py-8 text-red-500">{error}</div>;
 
   return (
-    <div className="">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
-        <h1 className="text-2xl font-bold text-[#1F2C73] mb-6">
-          Generate Numerical Reports
-        </h1>
-
+    <div className="px-12 py-8">
+      <h1 className="text-2xl font-bold text-[#1F2C73] mb-6">
+        Generate Reports
+      </h1>
+      <div className="max-w-4xl mx-auto bg-gray-50 shadow-lg p-4 ">
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Report Type

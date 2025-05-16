@@ -1,61 +1,64 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
+import { Link, useNavigate, useParams } from "react-router-dom";
 import logo from "../../assets/logo2.jpg";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-
+import { ChevronRight, ChevronDown } from "lucide-react";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate for redirecting after logout
+  const navigate = useNavigate();
+  const params = useParams();
+  const [details, setDetails] = useState({});
+  const [showMenu, setShowMenu] = useState(false);
+
+  const getDetails = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:1234/api/data/instructor/${params.id}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setDetails(data);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+      alert("Failed to fetch details");
+    }
+  };
+
+  useEffect(() => {
+    getDetails();
+  }, []);
 
   const goBack = () => window.history.back();
   const goForward = () => window.history.forward();
 
   useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 50;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".avatar-menu")) {
+        setShowMenu(false);
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-
-    // Handle logout when the user clicks the browser back arrow
-    const handleBeforeUnload = () => {
-      handleLogout();
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("click", handleClickOutside);
     };
-  }, [scrolled]);
+  }, []);
 
   const handleLogout = async () => {
     try {
-      // Clear token from localStorage
       localStorage.removeItem("token");
-
-      // Call logout API to clear cookie (if applicable)
       await axios.post(
         "http://localhost:1234/api/auth/logout",
         {},
         { withCredentials: true }
       );
-
-      // Force reload to clear cache
       window.location.href = "/login";
     } catch (error) {
       console.error("Logout error:", error);
       alert("An error occurred while logging out");
     }
-  };
-
-  const handleBackToHome = () => {
-    // Redirect to the home page
-    navigate("/");
   };
 
   return (
@@ -69,17 +72,7 @@ export default function Navbar() {
           <img src={logo} alt="Liam Crest" className="h-12" />
         </Link>
 
-        <div className="flex md:space-x-3 space-x-2">
-          {/* <button
-            className={`md:px-8 px-4 md:py-3 rounded-lg md:font-medium text-sm flex items-center space-x-2 transition-all duration-300 ${
-              scrolled
-                ? "bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
-                : "bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
-            }`}
-            onClick={handleBackToHome} // Redirect to home page
-          >
-            Back to Home
-          </button> */}
+        <div className="flex md:space-x-1 space-x-2 items-center">
           <div className="flex justify-center gap-4 px-4">
             <button
               onClick={goBack}
@@ -96,17 +89,75 @@ export default function Navbar() {
               <ArrowRight size={28} />
             </button>
           </div>
-          <div>
-            <button
-              className={`md:px-8 px-4 rounded-lg md:font-medium font-medium text-center flex items-center justify-center h-[50px] w-[100px] transition-all duration-300 ${
-                scrolled
-                  ? "bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
-                  : "bg-[#1F2C73] text-white hover:bg-[#2B4C7E]"
-              }`}
-              onClick={handleLogout}
+
+          {/* Avatar and dropdown */}
+          <div className="relative avatar-menu">
+            <div
+              className="flex items-center gap-2 cursor-pointer shadow-lg px-3 py-1 rounded-lg  border-gray-900"
+              onClick={() => setShowMenu(!showMenu)}
             >
-              Logout
-            </button>
+              <img
+                src={details.avatar}
+                alt="Avatar"
+                className="h-[50px] w-[50px] rounded-full object-cover"
+              />
+              <ChevronRight
+                className={`w-6 h-6 transform transition-transform duration-300 ${
+                  showMenu ? "rotate-90" : ""
+                }`}
+              />
+            </div>
+
+            {showMenu && (
+              <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl z-50 overflow-hidden">
+                <div className="bg-gray-100 px-6 py-4 text-center">
+                  <img
+                    src={details.avatar}
+                    className="h-[150px] w-[150px] rounded-full mx-auto object-cover"
+                    alt="Profile"
+                  />
+                  <h3 className="font-semibold mt-2 text-xl">
+                    {details.firstName}&nbsp;
+                    {details.lastName}
+                  </h3>
+                  <p className="text-md text-gray-600">
+                    {details.email || "Email not available"}
+                  </p>
+                </div>
+                <ul className="flex flex-col py-2 text-md">
+                  <li
+                    onClick={() => {
+                      navigate(`/instructor/${params.id}`);
+                      setShowMenu(false);
+                    }}
+                    className="px-6 py-3 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
+                    onClickCapture={() => {
+                      navigate(`/personal-info/${details._id}`);
+                    }}
+                  >
+                    Personal Information
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate(`/instructor/${params.id}`);
+                      setShowMenu(false);
+                    }}
+                    className="px-6 py-3 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
+                    onClickCapture={() => {
+                      navigate(`/research-info/${details._id}`);
+                    }}
+                  >
+                    Research Information
+                  </li>
+                  <li
+                    onClick={handleLogout}
+                    className="px-6 py-3 hover:bg-gray-100 cursor-pointer flex items-center gap-2 text-black"
+                  >
+                    Logout
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -201,7 +201,7 @@ const CourseDetails2 = () => {
 
   useEffect(() => {
     getCourseInfo();
-  }, []);
+  }, [params.id]);
 
   const handleEdit = (field) => {
     setEditedField(field);
@@ -785,8 +785,8 @@ const CourseDetails2 = () => {
 
   return (
     <div>
-      <Navbar />
-      <div className="p-6">
+      {/* <Navbar /> */}
+      <div className="py-2 px-3 md:py-8 md:px-12">
         <AnimatePresence>
           {notification.show && (
             <motion.div
@@ -802,7 +802,7 @@ const CourseDetails2 = () => {
             </motion.div>
           )}
         </AnimatePresence>
-        <div className="mt-[80px] mb-6 w-full">
+        <div className=" mb-6 w-full">
           <div className="flex flex-col justify-start   md:flex-row md:justify-between xs:flex-col xs:justify-start sm:flex-row sm:justify-between lg:flex-row lg:justify-between xl:flex-row xl:justify-between   items-start gap-y-3 xs:gap-y-3 sm:gap-y-0 md:gap-y-0 lg:gap-y-0 xl:gap-y-0 xxl:gap-y-0">
             <h2 className="text-2xl text-[#1F2C73] font-bold mb-2">
               Course Details
@@ -831,7 +831,7 @@ const CourseDetails2 = () => {
             </div>
           </div>
 
-          <div className="bg-white p-4 rounded-lg shadow">
+          <div className="bg-gray-50 p-4 rounded-lg shadow">
             <div className="grid grid-cols-0 xs:grid-cols-0 sm:grid-cols-0 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xxl:grid-cols-2 gap-y-6 gap-x-8">
               {[
                 { label: "Course Code", key: "courseCode" },
@@ -853,7 +853,7 @@ const CourseDetails2 = () => {
                       type={field.type || "text"}
                       value={courseInfo[field.key] || ""}
                       readOnly
-                      className="border p-1 rounded w-full bg-gray-100"
+                      className="border p-1 rounded w-full bg-white"
                     />
                     <motion.button
                       whileHover={{ scale: 1.1 }}
@@ -882,7 +882,7 @@ const CourseDetails2 = () => {
         </div>
 
         <div className="mb-4">
-          <div className="bg-white rounded-xl shadow-lg p-4">
+          <div className="bg-gray-50 rounded-xl shadow-lg p-4">
             <div className="flex flex-col justify-start   md:flex-row md:justify-between xs:flex-col xs:justify-start sm:flex-row sm:justify-between lg:flex-row lg:justify-between xl:flex-row xl:justify-between   items-start gap-y-3 xs:gap-y-3 sm:gap-y-0 md:gap-y-0 lg:gap-y-0 xl:gap-y-0 xxl:gap-y-0">
               <h2 className="text-xl font-bold text-[#1F2C73]">
                 Course Learning Outcomes
@@ -900,7 +900,7 @@ const CourseDetails2 = () => {
               {courseInfo.CLO && courseInfo.CLO.length > 0 ? (
                 courseInfo.CLO.map((outcome, index) => (
                   <div key={index} className="flex items-center space-x-3">
-                    <div className="flex-1 p-3 bg-gray-50 rounded-lg space-y-2">
+                    <div className="flex-1 p-3 bg-white rounded-lg space-y-2">
                       <div className="text-sm text-gray-500">
                         Course Learning Outcome {index + 1}
                       </div>
@@ -937,7 +937,7 @@ const CourseDetails2 = () => {
         </div>
 
         <div>
-          <div className="bg-white rounded-xl shadow-lg p-4">
+          <div className="bg-gray-50 rounded-xl shadow-lg p-4">
             <div className="flex flex-col justify-start   md:flex-row md:justify-between xs:flex-col xs:justify-start sm:flex-row sm:justify-between lg:flex-row lg:justify-between xl:flex-row xl:justify-between   items-start gap-y-3 xs:gap-y-3 sm:gap-y-0 md:gap-y-0 lg:gap-y-0 xl:gap-y-0 xxl:gap-y-0 ">
               <h2 className="text-xl font-bold text-[#1F2C73] ">
                 Assessments (Total: {totalAssessmentsMarks})
@@ -969,7 +969,7 @@ const CourseDetails2 = () => {
                 courseInfo.assessments.map((assessment, index) => (
                   <div
                     key={index}
-                    className="p-4 bg-gray-50 rounded-lg shadow-md space-y-2 relative"
+                    className="p-4 bg-white rounded-lg shadow-md space-y-2 relative"
                   >
                     <div className="absolute top-4 right-4 flex gap-2">
                       <button
@@ -992,7 +992,7 @@ const CourseDetails2 = () => {
                     </div>
 
                     <div>
-                      <div className="text-lg py-2 font-medium text-gray-800 mt-6">
+                      <div className="text-lg py-2 font-medium text-gray-800 ">
                         Assessment Name: {assessment.assessmentName}
                       </div>
                       <div className="flex gap-x-3 xs:gap-x-2 sm:gap-x-2  md:gap-x-10 lg:gap-x-10 xl:gap-x-10 xxl:gap-x-10 text-sm pb-2 text-gray-500">
@@ -1017,7 +1017,7 @@ const CourseDetails2 = () => {
                           assessment.questions.map((question, qIndex) => (
                             <div
                               key={qIndex}
-                              className="p-7 bg-white border rounded-lg relative"
+                              className="p-7 bg-gray-50 border rounded-lg relative"
                             >
                               <div className="absolute top-2 right-2 flex gap-2">
                                 <button

@@ -212,7 +212,7 @@ export default function DepartmentInfo() {
   };
 
   return (
-    <div className="">
+    <div className=" py-2 px-3 md:py-8 md:px-12 ">
       {/* Notification Toast */}
       <AnimatePresence>
         {notification.show && (
@@ -230,11 +230,11 @@ export default function DepartmentInfo() {
         )}
       </AnimatePresence>
 
-      <div className="bg-white rounded-xl shadow-lg p-6 mb-5">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold text-[#1F2C73]">
-            Department Information
-          </h2>
+      <h2 className="text-2xl mb-6 font-bold text-[#1F2C73]">
+        Department Information
+      </h2>
+      <div className="bg-gray-50 rounded-md  p-6 mb-5 shadow-lg">
+        <div className="flex justify-between items-center">
           {/* <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -244,7 +244,7 @@ export default function DepartmentInfo() {
           </motion.button> */}
         </div>
 
-        <div className="flex flex-col xs:flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row xxl:flex-row justify-start items-start space-x-0 xs:space-x-0 sm:space-x-0 md:space-x-10 lg:space-x-10 xl:space-x-10 xxl:space-x-10 space-y-5">
+        <div className="flex flex-col xs:flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row xxl:flex-row justify-start items-start space-x-0 xs:space-x-0 sm:space-x-0 md:space-x-10 lg:space-x-10 xl:space-x-10 xxl:space-x-10 space-y-5 md:space-y-0">
           <div className="">
             <label className="block text-sm font-medium text-gray-600 mb-1">
               Department Name
@@ -353,7 +353,7 @@ export default function DepartmentInfo() {
         </div>
       )}
 
-      <div className="bg-white rounded-xl shadow-lg p-6">
+      <div className="bg-gray-50 rounded-md shadow-lg p-6">
         <h2 className="text-xl font-bold text-[#1F2C73] mb-6">
           Program Learning Outcomes
         </h2>
@@ -361,7 +361,7 @@ export default function DepartmentInfo() {
           {departmentInfo.PLO && departmentInfo.PLO.length > 0 ? (
             departmentInfo.PLO.map((outcome, index) => (
               <div key={index} className="flex items-center space-x-2">
-                <div className="flex-1 p-3 bg-gray-50 rounded-lg space-y-2">
+                <div className="flex-1 p-3 bg-white rounded-lg space-y-2">
                   <div className="text-sm text-gray-500">
                     Program Learning Objective {index + 1}
                   </div>

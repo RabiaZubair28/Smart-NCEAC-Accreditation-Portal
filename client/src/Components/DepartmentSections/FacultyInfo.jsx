@@ -136,7 +136,7 @@ export default function FacultyInfo() {
   };
 
   return (
-    <div className="">
+    <div className="px-12 py-8">
       <AnimatePresence>
         {msg.show && (
           <motion.div
@@ -152,8 +152,10 @@ export default function FacultyInfo() {
         )}
       </AnimatePresence>
 
-      <div className="flex flex-col justify-start   md:flex-row md:justify-between xs:flex-col xs:justify-start sm:flex-row sm:justify-between lg:flex-row lg:justify-between xl:flex-row xl:justify-between   items-start gap-y-3 xs:gap-y-3 sm:gap-y-0 md:gap-y-0 lg:gap-y-0 xl:gap-y-0 xxl:gap-y-0 p-6">
-        <h2 className="text-xl font-bold text-[#1F2C73]">Faculty Info</h2>
+      <div className="flex flex-col justify-start   md:flex-row md:justify-between xs:flex-col xs:justify-start sm:flex-row sm:justify-between lg:flex-row lg:justify-between xl:flex-row xl:justify-between   items-start gap-y-3 xs:gap-y-3 sm:gap-y-0 md:gap-y-0 lg:gap-y-0 xl:gap-y-0 xxl:gap-y-0 mb-6">
+        <h2 className="text-2xl font-bold text-[#1F2C73]">
+          Faculty Information
+        </h2>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -172,7 +174,7 @@ export default function FacultyInfo() {
             <motion.div
               key={index}
               whileHover={{ scale: 1.01 }}
-              className="bg-white p-6 rounded-lg shadow-md  flex flex-col justify-start   md:flex-row md:justify-between xs:flex-col xs:justify-start sm:flex-row sm:justify-between lg:flex-row lg:justify-between xl:flex-row xl:justify-between   items-start gap-y-3 xs:gap-y-3 sm:gap-y-0 md:gap-y-0 lg:gap-y-0 xl:gap-y-0 xxl:gap-y-0"
+              className="bg-gray-50 py-6 px-4 rounded-lg shadow-md  flex flex-col justify-start   md:flex-row md:justify-between xs:flex-col xs:justify-start sm:flex-row sm:justify-between lg:flex-row lg:justify-between xl:flex-row xl:justify-between   items-start gap-y-3 xs:gap-y-3 sm:gap-y-0 md:gap-y-0 lg:gap-y-0 xl:gap-y-0 xxl:gap-y-0"
             >
               <div className="space-y-2">
                 <div className="text-lg font-semibold text-[#1F2C73]">

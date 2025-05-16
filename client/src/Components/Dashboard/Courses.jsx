@@ -35,14 +35,14 @@ export default function Courses() {
   }, []); // Depend on params.id
 
   return (
-    <div className="p-6">
+    <div className="px-12 py-8">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="flex justify-between items-center mb-6"
       >
         <h2 className="text-2xl font-bold text-[#1F2C73]">
-          Courses Information
+          Assigned Courses Information
         </h2>
       </motion.div>
 
@@ -50,7 +50,7 @@ export default function Courses() {
         {courses && courses.length > 0 ? (
           courses.map((course, index) => (
             <motion.div
-              className="bg-white py-6 px-4 rounded-lg shadow-md mb-1"
+              className="bg-gray-50 py-6 px-4 rounded-lg shadow-md mb-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -94,7 +94,7 @@ export default function Courses() {
                   <span>Download Schema</span>
                 </motion.button> */}
 
-                <motion.button
+                {/* <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="px-4 py-2 bg-[#1F2C73] text-white rounded-md hover:bg-[#283593]"
@@ -105,7 +105,7 @@ export default function Courses() {
                   }}
                 >
                   Go to Course
-                </motion.button>
+                </motion.button> */}
               </div>
             </motion.div>
           ))

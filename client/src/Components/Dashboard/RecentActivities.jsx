@@ -169,7 +169,7 @@ function RecentActivities() {
   }, [departmentId]);
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
+    <div className="bg-gray-50 rounded-lg shadow-lg p-6">
       <h2 className="text-xl font-bold mb-6">Recent Activities</h2>
       <div className="space-y-6">
         {activities.map((activity) => (

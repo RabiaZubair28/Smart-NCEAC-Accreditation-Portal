@@ -60,7 +60,7 @@ function OrderStatus() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg px-4 py-8">
+    <div className="bg-gray-50 rounded-lg shadow-lg px-4 py-8">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-lg font-bold mb-4 text-gray-800">
           Overall PLO Achievement Section-Wise

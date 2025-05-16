@@ -373,7 +373,7 @@ export default function OngoingCourses() {
   };
 
   return (
-    <div className="">
+    <div className="py-2 px-3 md:py-8 md:px-12">
       <AnimatePresence>
         {notification.show && (
           <motion.div
@@ -390,8 +390,8 @@ export default function OngoingCourses() {
         )}
       </AnimatePresence>
       <div>
-        <div className=" p-6 flex flex-col justify-start   md:flex-row md:justify-between xs:flex-col xs:justify-start sm:flex-row sm:justify-between lg:flex-row lg:justify-between xl:flex-row xl:justify-between   items-start gap-y-3 xs:gap-y-3 sm:gap-y-0 md:gap-y-0 lg:gap-y-0 xl:gap-y-0 xxl:gap-y-0">
-          <h2 className="text-xl font-bold text-[#1F2C73]">Ongoing Courses</h2>
+        <div className="  flex flex-col justify-start   md:flex-row md:justify-between xs:flex-col xs:justify-start sm:flex-row sm:justify-between lg:flex-row lg:justify-between xl:flex-row xl:justify-between   items-start gap-y-3 xs:gap-y-3 sm:gap-y-0 md:gap-y-0 lg:gap-y-0 xl:gap-y-0 xxl:gap-y-0 mb-6">
+          <h2 className="text-2xl font-bold text-[#1F2C73]">Ongoing Courses</h2>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -411,7 +411,7 @@ export default function OngoingCourses() {
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.01 }}
-                className="bg-white py-6 px-4 rounded-lg shadow-md"
+                className="bg-gray-50 py-6 px-4 rounded-lg shadow-md"
               >
                 <div className="flex flex-col justify-start   md:flex-row md:justify-between xs:flex-col xs:justify-start sm:flex-row sm:justify-between lg:flex-row lg:justify-between xl:flex-row xl:justify-between   items-start gap-y-3 xs:gap-y-3 sm:gap-y-0 md:gap-y-0 lg:gap-y-0 xl:gap-y-0 xxl:gap-y-0">
                   <div className="space-y-3">
@@ -437,7 +437,9 @@ export default function OngoingCourses() {
                       whileTap={{ scale: 0.95 }}
                       className="flex items-center space-x-2 px-4 py-2 my-1 bg-[#1F2C73] text-white rounded-lg hover:bg-[#283593] w-[140px] text-center"
                       onClick={() => {
-                        navigate(`/course/${course._id}`); // Changed to `course._id` for the correct ID
+                        navigate(
+                          `/course/${course._id}/${course.instructorId}`
+                        ); // Changed to `course._id` for the correct ID
                       }}
                     >
                       <span>Go to Course</span>

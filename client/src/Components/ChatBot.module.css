@@ -1,8 +1,8 @@
 .chatbot {
   display: flex;
   flex-direction: column;
-  height: 200px;
- 
+  /* height: 200px; */
+  /* width: 800px; */
   margin: 0 auto;
   background-color: #f7f7f7;
   position: relative;
@@ -10,7 +10,7 @@
 
 @media (min-width: 768px) {
   .chatbot {
-
+    max-width: 800px;
     margin: 0 auto;
     height: 100vh;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);

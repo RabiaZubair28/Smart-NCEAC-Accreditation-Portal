@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, Edit, Trash2, Plus } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Navbar4 from "../Home/Navbar4";
 
 export default function ResearchInfo() {
   const [researchPapers, setResearchPapers] = useState([]);
@@ -211,6 +212,8 @@ export default function ResearchInfo() {
     }
   };
 
+  const navigate = useNavigate();
+
   const formatDoiLink = (doiLink) => {
     if (!doiLink) return "#";
     if (doiLink.startsWith("http")) return doiLink;
@@ -227,7 +230,7 @@ export default function ResearchInfo() {
   }
 
   return (
-    <div className="p-6">
+    <div className="">
       {message.text && (
         <div
           className={`fixed top-4 right-4 p-4 rounded-md shadow-lg z-50 ${
@@ -250,11 +253,12 @@ export default function ResearchInfo() {
           </motion.div>
         )}
       </AnimatePresence>
+      <Navbar4 />
 
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col justify-start   md:flex-row md:justify-between xs:flex-col xs:justify-start sm:flex-row sm:justify-between lg:flex-row lg:justify-between xl:flex-row xl:justify-between   items-start gap-y-3 xs:gap-y-3 sm:gap-y-0 md:gap-y-0 lg:gap-y-0 xl:gap-y-0 xxl:gap-y-0 mb-8"
+        className="flex flex-col justify-start   md:flex-row md:justify-between xs:flex-col xs:justify-start sm:flex-row sm:justify-between lg:flex-row lg:justify-between xl:flex-row xl:justify-between   items-start gap-y-3 xs:gap-y-3 sm:gap-y-0 md:gap-y-0 lg:gap-y-0 xl:gap-y-0 xxl:gap-y-0 mt-[80px] px-12 pt-6"
       >
         <h2 className="text-2xl font-bold text-[#1F2C73]">
           Research Information
@@ -278,13 +282,13 @@ export default function ResearchInfo() {
         <AnimatePresence>
           {researchPapers.map((item, index) => (
             <motion.div
-              className="bg-white p-4 rounded-lg shadow-md mb-1"
+              className="bg-white p-4 rounded-lg shadow-md mb-1 mx-12 my-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               key={item._id || index}
             >
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between ">
                 <div className="flex-1">
                   <div className="text-sm text-gray-500">S.No: {index + 1}</div>
                   <div className="text-lg font-semibold text-[#1F2C73]">

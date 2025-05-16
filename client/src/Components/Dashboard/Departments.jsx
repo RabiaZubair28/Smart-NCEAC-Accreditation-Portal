@@ -4,7 +4,7 @@ import { Download, Plus } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { Edit, Trash2 } from "lucide-react";
-export default function Courses() {
+export default function Departments() {
   const [showModalAdd, setShowModalAdd] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -122,7 +122,7 @@ export default function Courses() {
   };
 
   return (
-    <div className="p-6 relative">
+    <div className="py-2 px-3 md:py-8 md:px-12 relative">
       {/* Message Notification */}
       <AnimatePresence>
         {message.show && (
@@ -164,7 +164,7 @@ export default function Courses() {
         <AnimatePresence>
           {departments.map((dept, index) => (
             <motion.div
-              className="bg-white p-6 rounded-lg shadow-md mb-1"
+              className="bg-gray-50 p-6 rounded-lg shadow-md mb-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -199,14 +199,14 @@ export default function Courses() {
                   <span>Download Schema</span>
                 </motion.button> */}
 
-                <motion.button
+                {/* <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="px-4 py-2 bg-[#1F2C73] text-white rounded-md hover:bg-[#283593]"
                   onClick={() => navigate(`/department/${dept._id}`)}
                 >
                   Go to Department
-                </motion.button>
+                </motion.button> */}
               </div>
             </motion.div>
           ))}

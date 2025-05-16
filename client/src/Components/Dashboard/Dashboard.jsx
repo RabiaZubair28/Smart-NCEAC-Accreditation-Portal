@@ -21,7 +21,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import cloPloMap from "../../Pages/Data.json";
 
-// Mocked PLO data — this would ideally be dynamic
 const chartColors = {
   "Batch: Fall 2021": "#3b82f6",
   "Batch: Fall 2022": "#10b981",
@@ -32,10 +31,6 @@ const chartColors = {
 function Dashboard() {
   const [students, setStudents] = useState([]);
   const [dynamicPieData, setDynamicPieData] = useState([]);
-
-  var totalPL01 = 0;
-  var totalPL02 = 0;
-  var totalPL03 = 0;
 
   const [data, setData] = useState(null);
 
@@ -95,9 +90,6 @@ function Dashboard() {
     }
   }, [departmentId]);
 
-  console.log(students);
-  console.log(data);
-
   const generatePieDataForPLOs = () => {
     if (!departmentInfo.PLO || students.length === 0) return;
 
@@ -116,12 +108,12 @@ function Dashboard() {
           {
             name: `PLO${index + 1} Achieved`,
             value: achieved,
-            color: "#3b82f6",
+            color: "#8dd1e1",
           },
           {
             name: `PLO${index + 1} Dismissed`,
             value: students.length - achieved,
-            color: "#ef4444",
+            color: "#ff8042",
           },
         ],
       };
@@ -151,19 +143,19 @@ function Dashboard() {
     ...new Set(students.map((student) => student.studentBatch)),
   ];
 
-  // uniqueBatches.forEach((batchName) => {
-  //   console.log(`--- PLO Averages for Batch: ${batchName} ---`);
-  //   console.log("PLO1:", calculatePLO1(batchName));
-  // });
-
   return (
-    <div className="">
+    <div className=" px-0 py-0 md:px-12 md:py-8 ">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-white rounded-lg shadow-lg p-5 ">
-          <div className="flex justify-between items-center mb-4">
+        <div>
+          <p className="text-[#1F2C73] font-bold text-start text-lg md:text-2xl mb-5 ">
+            Overview of Department's Academic Progress
+          </p>
+        </div>
+        <div className="bg-gray-50 shadow-lg rounded-lg p-4 ">
+          <div className="flex justify-between items-center mb-6">
             <div>
               <p className="text-black font-bold text-start text-xl ">
-                Overview of Department's Academic Progress
+                Overall PLO Achievement Batch-wise
               </p>
             </div>
           </div>
@@ -200,83 +192,50 @@ function Dashboard() {
                         <Bar
                           dataKey="value"
                           name="Achieved"
-                          fill={chartColors[batchName] || "#8884d8"}
                           radius={[4, 4, 0, 0]}
-                        />
+                        >
+                          {batchPLOData.map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={
+                                [
+                                  "#8884d8",
+                                  "#82ca9d",
+                                  "#ffc658",
+                                  "#ff8042",
+                                  "#8dd1e1",
+                                  "#a4de6c",
+
+                                  "#ffc0cb",
+                                  "#8884d8",
+                                  "#82ca9d",
+                                  "#d0ed57",
+                                ][index % 10]
+                              }
+                            />
+                          ))}
+                        </Bar>
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
                 </div>
               );
             })}
-
-            {/* Left: Batch-wise Bar Charts */}
-            {/* <div className="w-full">
-              <h2 className="text-lg font-bold mb-4 text-gray-800">
-                Overall PLO Achievement Batch-Wise
-              </h2>
-              <div className="grid grid-cols-3 gap-4">
-                {uniqueBatches.map((batchName) => {
-                  const batchPLOData = [
-                    { name: "PLO1", value: calculatePLO1(batchName) },
-                    { name: "PLO2", value: calculatePLO2(batchName) },
-                    { name: "PLO3", value: calculatePLO3(batchName) },
-                  ];
-
-                  return (
-                    <div
-                      key={batchName}
-                      className="bg-white rounded-lg p-3 shadow-sm border border-gray-100"
-                    >
-                      <h3 className="text-sm font-semibold mb-2 text-gray-800">
-                        Batch: {batchName}
-                      </h3>
-                      <div className="h-[200px]">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <BarChart data={batchPLOData}>
-                            <CartesianGrid
-                              strokeDasharray="3 3"
-                              stroke="#f0f0f0"
-                            />
-                            <XAxis dataKey="name" fontSize={10} />
-                            <YAxis fontSize={10} />
-                            <Tooltip
-                              contentStyle={{
-                                backgroundColor: "#fff",
-                                border: "none",
-                                borderRadius: "8px",
-                                boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                              }}
-                            />
-                            <Bar
-                              dataKey="value"
-                              name="Achievement %"
-                              fill={chartColors[batchName] || "#8884d8"}
-                              radius={[4, 4, 0, 0]}
-                            />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div> */}
           </div>
         </div>
 
-        <div className="w-full bg-white rounded-lg shadow-lg p-5">
+        <div className="w-full bg-gray-50 shadow-lg rounded-lg p-4 mt-6">
           <div className="flex justify-between items-center mb-8">
             <div>
-              <p className="text-black font-bold text-start text-xl ">
-                Overview of Department's Academic Progress
+              <p className="text-black font-bold text-start text-lg md:text-xl ">
+                Overall PLO Achievement Batch-wise
               </p>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-4">
             {dynamicPieData.map((plo, index) => (
-              <div key={index} className="w-full">
-                <h3 className="text-sm font-semibold mb-4 text-gray-800">
+              <div key={index} className="w-full bg-white p-2">
+                <h3 className="text-sm font-semibold mb-4 text-gray-800 ">
                   Overall {plo.name} Achievement
                 </h3>
                 <ResponsiveContainer width="100%" height={300}>

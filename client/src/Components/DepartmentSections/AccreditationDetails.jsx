@@ -439,7 +439,7 @@ export default function AccreditationDetails() {
   };
 
   return (
-    <div className="">
+    <div className="py-2 px-3 md:py-8 md:px-12">
       <AnimatePresence>
         {msg.show && (
           <motion.div
@@ -455,8 +455,8 @@ export default function AccreditationDetails() {
         )}
       </AnimatePresence>
       {/* Accreditation Details Section */}
-      <div className="p-6 rounded shadow-md bg-white">
-        <h2 className="text-xl font-bold text-[#1F2C73] mb-4">
+      <div className="rounded  bg-white">
+        <h2 className="text-2xl font-bold text-[#1F2C73] mb-6">
           Accreditation Details
         </h2>
         <div className="grid grid-cols-1 gap-4 text-sm">

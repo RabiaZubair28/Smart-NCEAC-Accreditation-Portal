@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, Edit, Trash2, Plus } from "lucide-react";
 import axios from "axios";
-import Navbar from "../Home/LoginNavbar.jsx";
+import Navbar from "../Home/Navbar3.jsx";
 
 const CourseDetails = () => {
   const params = useParams();

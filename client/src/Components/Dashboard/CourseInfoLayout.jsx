@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Outlet, useLocation } from "react-router-dom";
 import * as Tabs from "@radix-ui/react-tabs";
 import { ChevronRight, ChevronDown, Menu } from "lucide-react";
-import Navbar from "../Home/LoginNavbar.jsx";
+import Navbar from "../Home/Navbar2.jsx";
 
 const TabButton = ({
   value,
@@ -34,87 +34,74 @@ const TabButton = ({
   </div>
 );
 
-export default function Layout({
-  personalContent,
+export default function CourseInfoLayout({
   researchContent,
-  departmentContent,
   coursesContent,
+  departmentContent,
   chatbot,
 }) {
-  const [activeTab, setActiveTab] = useState("dashboard");
-  const [details, setDetails] = useState("");
+  const [activeTab, setActiveTab] = useState("courses");
   const [openMenus, setOpenMenus] = useState({
-    courses: false,
+    courses: true,
     departments: false,
   });
+  const [details, setDetails] = useState({});
+  const [departments, setDepartments] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [category, setCategory] = useState("one");
+  const [category2, setCategory2] = useState("one");
+
   const params = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const getDetails = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:1234/api/data/instructor/${params.insid}`
+        );
+        if (res.ok) setDetails(await res.json());
+      } catch (err) {
+        console.error("Instructor fetch error:", err);
+      }
+    };
+
+    const getDepartments = async () => {
+      try {
+        const res = await fetch("http://localhost:1234/api/data/departments");
+        if (res.ok) setDepartments(await res.json());
+      } catch (err) {
+        console.error("Departments fetch error:", err);
+      }
+    };
+
+    const getCourses = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:1234/api/data/course/instructor/${params.insid}`
+        );
+        if (res.ok) setCourses(await res.json());
+      } catch (err) {
+        console.error("Courses fetch error:", err);
+      }
+    };
+
+    getDetails();
+    getDepartments();
+    getCourses();
+  }, [params.insid]);
+
+  useEffect(() => {
+    if (location.pathname.includes("/instructor-course")) {
+      setActiveTab("courses");
+    }
+  }, [location.pathname]);
 
   const toggleMenu = (menu) => {
     setOpenMenus((prev) => ({ ...prev, [menu]: !prev[menu] }));
   };
-
-  const getDetails = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:1234/api/data/instructor/${params.id}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setDetails(data);
-      }
-    } catch (error) {
-      console.log(`services error: ${error}`);
-    }
-  };
-
-  useEffect(() => {
-    getDetails();
-  }, []);
-
-  const [loading, setLoading] = useState(false);
-  const [departments, setDepartments] = useState([]);
-  const getDepartments = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(
-        "http://localhost:1234/api/data/departments"
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setDepartments(data);
-      }
-    } catch (error) {
-      console.error(`Services error: ${error}`);
-      alert("Failed to fetch departments");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getDepartments();
-  }, []);
-
-  const [courses, setCourses] = useState([]);
-  const getCourses = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:1234/api/data/course/instructor/${params.id}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setCourses(data);
-      }
-    } catch (error) {
-      console.error(`Error fetching courses: ${error}`);
-    }
-  };
-
-  useEffect(() => {
-    getCourses();
-  }, []);
 
   const renderSidebar = () => (
     <Tabs.List className="w-64 flex flex-col bg-gray-50 border-r border-gray-200">
@@ -134,26 +121,36 @@ export default function Layout({
         isActive={activeTab === "courses"}
         onClick={() => {
           setActiveTab("courses");
+          setCategory("all");
           toggleMenu("courses");
         }}
         hasChildren
         expanded={openMenus.courses}
       />
       {openMenus.courses &&
-        courses.map((course) => (
-          <div
-            key={course._id}
-            className={`flex items-center justify-between px-4 py-3 pl-8 text-gray-700  hover:bg-blue-5 text-md cursor-pointer transition-all duration-300 hover:bg-blue-50 hover:text-[#1F2C73] hover:font-semibold hover:border-b-2 hover:border-[#1F2C73] `}
-            onClick={() => {
-              navigate(
-                `../../${course.instructorId}/instructor-course/${course.courseCode}/${course._id}`
-              );
-              setShowMobileMenu(false);
-            }}
-          >
-            {course.courseName}
-          </div>
-        ))}
+        courses.map((course) => {
+          const isSelected = location.pathname.includes(course._id);
+          return (
+            <div
+              key={course._id}
+              className={`flex items-center justify-between px-4 py-3 pl-8 text-md cursor-pointer transition-all duration-300 ${
+                isSelected
+                  ? "bg-white text-[#1F2C73] font-bold border-b-2 border-[#1F2C73]"
+                  : "hover:text-[#1F2C73]"
+              }`}
+              onClick={() => {
+                navigate(
+                  `/${course.instructorId}/instructor-course/${course.courseCode}/${course._id}`
+                );
+                setActiveTab("courses");
+                setCategory("one");
+                setShowMobileMenu(false);
+              }}
+            >
+              {course.courseName}
+            </div>
+          );
+        })}
 
       {(details?.role?.toLowerCase?.().includes("hod") ||
         details?.role?.toLowerCase?.().includes("head")) && (
@@ -164,6 +161,7 @@ export default function Layout({
             isActive={activeTab === "departments"}
             onClick={() => {
               setActiveTab("departments");
+              setCategory2("all");
               toggleMenu("departments");
             }}
             hasChildren
@@ -173,9 +171,10 @@ export default function Layout({
             departments.map((dept) => (
               <div
                 key={dept._id}
-                className={`flex items-center justify-between px-4 py-3 pl-8 text-gray-700  hover:bg-blue-5 text-md cursor-pointer transition-all duration-300 hover:bg-blue-50 hover:text-[#1F2C73] hover:font-semibold hover:border-b-2 hover:border-[#1F2C73] hover:whitespace-nowrap`}
+                className="flex items-center justify-between px-4 py-3 pl-8 text-gray-700 hover:bg-blue-50 text-md cursor-pointer transition-all duration-300 hover:text-[#1F2C73] hover:font-semibold hover:border-b-2 hover:border-[#1F2C73]"
                 onClick={() => {
-                  navigate(`../../${params.id}/department/${dept._id}`);
+                  navigate(`/${params.insid}/department/${dept._id}`);
+                  setCategory2("one");
                   setShowMobileMenu(false);
                 }}
               >
@@ -205,15 +204,12 @@ export default function Layout({
       className="min-h-screen bg-gray-50"
     >
       <Navbar />
-      <div
-        className="max-w-7xl mx-auto px-0 py-0 md:px-8 md:py-10
-mt-[90px]"
-      >
-        {/* Mobile Menu Button */}
-        <div className="md:hidden  py-3 flex w-full px-3">
+      <div className="max-w-7xl mx-auto px-4 py-4 mt-[80px]">
+        {/* Mobile toggle */}
+        <div className="md:hidden mb-4">
           <button
             onClick={() => setShowMobileMenu(!showMobileMenu)}
-            className="p-2 rounded-md text-gray-700 border-gray-100 hover:bg-white bg-white focus:outline-none"
+            className="p-2 rounded-md text-gray-700 border-gray-300 border bg-white shadow-sm"
           >
             <Menu className="w-6 h-6" />
           </button>
@@ -225,25 +221,29 @@ mt-[90px]"
             onValueChange={setActiveTab}
             className="flex w-full"
           >
-            {/* Desktop Sidebar (always visible) */}
+            {/* Desktop Sidebar */}
             <div className="hidden md:block">{renderSidebar()}</div>
 
-            {/* Mobile Sidebar (conditionally visible) */}
+            {/* Mobile Sidebar */}
             {showMobileMenu && (
-              <div className="md:hidden absolute z-50 mt-0 flex items-center bg-white shadow-lg rounded-md">
+              <div className="md:hidden absolute z-50 bg-white shadow-lg rounded-md">
                 {renderSidebar()}
               </div>
             )}
 
-            <div className="flex-1 p-0 md:p-0 lg:p-0">
+            <div className="flex-1 p-4 md:p-0">
               <Tabs.Content value="dashboard" className="outline-none">
                 {researchContent}
               </Tabs.Content>
               <Tabs.Content value="courses" className="outline-none">
-                {coursesContent}
+                {coursesContent &&
+                  React.cloneElement(coursesContent, { category })}
+                <Outlet />
               </Tabs.Content>
               <Tabs.Content value="departments" className="outline-none">
-                {departmentContent}
+                {departmentContent &&
+                  React.cloneElement(departmentContent, { category2 })}
+                <Outlet />
               </Tabs.Content>
               <Tabs.Content value="chatbot" className="outline-none">
                 {chatbot}

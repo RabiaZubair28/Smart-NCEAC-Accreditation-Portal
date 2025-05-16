@@ -24,7 +24,6 @@ const ChatBot = () => {
   }, []);
 
   const handleSendMessage = async (text) => {
-    // Add user message
     const userMessage = {
       text,
       sender: "user",
@@ -32,15 +31,11 @@ const ChatBot = () => {
     };
 
     setMessages((prevMessages) => [...prevMessages, userMessage]);
-
-    // Add temporary bot message with loading state
     setIsLoading(true);
 
     try {
-      // Process the query
       const response = await processQuery(text);
 
-      // Add bot response
       const botMessage = {
         text: response.text,
         sender: "bot",
@@ -52,7 +47,6 @@ const ChatBot = () => {
     } catch (error) {
       console.error("Error processing message:", error);
 
-      // Add error message
       const errorMessage = {
         text: "I'm having trouble processing your request. Please try again later.",
         sender: "bot",
