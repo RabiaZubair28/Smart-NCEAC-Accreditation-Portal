@@ -22,7 +22,7 @@ export default function SubDepts({ category2 }) {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:1234/api/data/departments",
+        "https://iba-nceac.site/api/data/departments",
         {
           method: "GET",
         }
@@ -92,7 +92,7 @@ export default function SubDepts({ category2 }) {
 
     try {
       const response = await fetch(
-        "http://localhost:1234/api/data/department",
+        "https://iba-nceac.site/api/data/department",
         {
           method: "POST",
           headers: {

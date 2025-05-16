@@ -33,7 +33,7 @@ export default function FacultyInfo() {
   const getInstructors = async () => {
     try {
       const response = await fetch(
-        "http://localhost:1234/api/data/instructors"
+        "https://iba-nceac.site/api/data/instructors"
       );
       if (response.ok) {
         const data = await response.json();
@@ -66,7 +66,7 @@ export default function FacultyInfo() {
 
     try {
       const response = await fetch(
-        "http://localhost:1234/api/data/instructors",
+        "https://iba-nceac.site/api/data/instructors",
         {
           method: "POST",
           headers: {

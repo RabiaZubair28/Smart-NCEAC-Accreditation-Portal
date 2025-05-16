@@ -58,7 +58,7 @@ export default function Layout({
   const getDetails = async () => {
     try {
       const response = await fetch(
-        `http://localhost:1234/api/data/instructor/${params.id}`
+        `https://iba-nceac.site/api/data/instructor/${params.id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -79,7 +79,7 @@ export default function Layout({
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:1234/api/data/departments"
+        "https://iba-nceac.site/api/data/departments"
       );
       if (response.ok) {
         const data = await response.json();
@@ -101,7 +101,7 @@ export default function Layout({
   const getCourses = async () => {
     try {
       const response = await fetch(
-        `http://localhost:1234/api/data/course/instructor/${params.id}`
+        `https://iba-nceac.site/api/data/course/instructor/${params.id}`
       );
       if (response.ok) {
         const data = await response.json();

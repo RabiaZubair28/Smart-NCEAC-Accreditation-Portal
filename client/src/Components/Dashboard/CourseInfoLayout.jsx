@@ -60,7 +60,7 @@ export default function CourseInfoLayout({
     const getDetails = async () => {
       try {
         const res = await fetch(
-          `http://localhost:1234/api/data/instructor/${params.insid}`
+          `https://iba-nceac.site/api/data/instructor/${params.insid}`
         );
         if (res.ok) setDetails(await res.json());
       } catch (err) {
@@ -70,7 +70,7 @@ export default function CourseInfoLayout({
 
     const getDepartments = async () => {
       try {
-        const res = await fetch("http://localhost:1234/api/data/departments");
+        const res = await fetch("https://iba-nceac.site/api/data/departments");
         if (res.ok) setDepartments(await res.json());
       } catch (err) {
         console.error("Departments fetch error:", err);
@@ -80,7 +80,7 @@ export default function CourseInfoLayout({
     const getCourses = async () => {
       try {
         const res = await fetch(
-          `http://localhost:1234/api/data/course/instructor/${params.insid}`
+          `https://iba-nceac.site/api/data/course/instructor/${params.insid}`
         );
         if (res.ok) setCourses(await res.json());
       } catch (err) {

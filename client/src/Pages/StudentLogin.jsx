@@ -21,7 +21,7 @@ function StudentLogin() {
 
     try {
       const response = await axios.post(
-        "http://localhost:1234/api/auth/student-login",
+        "https://iba-nceac.site/api/auth/student-login",
         { studentId, password }
       );
 
@@ -51,7 +51,7 @@ function StudentLogin() {
 
     try {
       const response = await axios.post(
-        "http://localhost:1234/api/auth/forgot-password",
+        "https://iba-nceac.site/api/auth/forgot-password",
         {
           email,
           userType: "student",

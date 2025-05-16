@@ -14,7 +14,7 @@ function RecentActivities() {
     const fetchAccreditation = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:1234/api/accreditation/getAccreditation/${departmentId}`
+          `https://iba-nceac.site/api/accreditation/getAccreditation/${departmentId}`
         );
         setData(res.data);
 

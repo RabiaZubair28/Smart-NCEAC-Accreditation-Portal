@@ -14,7 +14,7 @@ export default function Navbar3() {
   const getDetails = async () => {
     try {
       const response = await fetch(
-        `http://localhost:1234/api/data/instructor/${params.insid}`
+        `https://iba-nceac.site/api/data/instructor/${params.insid}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -50,7 +50,7 @@ export default function Navbar3() {
     try {
       localStorage.removeItem("token");
       await axios.post(
-        "http://localhost:1234/api/auth/logout",
+        "https://iba-nceac.site/api/auth/logout",
         {},
         { withCredentials: true }
       );

@@ -17,7 +17,7 @@ export default function Subcourses({ category }) {
     try {
       console.log("Fetching courses for ID:", params.id); // Debugging
       const response = await fetch(
-        `http://localhost:1234/api/data/course/instructor/${params.insid}`
+        `https://iba-nceac.site/api/data/course/instructor/${params.insid}`
       );
 
       if (response.ok) {

@@ -1018,7 +1018,7 @@ const ReportGeneration = () => {
       // Handle both string and object course IDs
       const courseId = typeof id === "object" ? id._id : id;
       const response = await fetch(
-        `http://localhost:1234/api/data/course/id/${courseId}`,
+        `https://iba-nceac.site/api/data/course/id/${courseId}`,
         { method: "GET" }
       );
       if (response.ok) {
@@ -1053,10 +1053,10 @@ const ReportGeneration = () => {
         // Fetch students and batches in parallel
         const [studentsRes, batchesRes] = await Promise.all([
           axios.get(
-            `http://localhost:1234/api/students/allStudents/${departmentId}`
+            `https://iba-nceac.site/api/students/allStudents/${departmentId}`
           ),
           axios.get(
-            `http://localhost:1234/api/batches/all-batches/${departmentId}`
+            `https://iba-nceac.site/api/batches/all-batches/${departmentId}`
           ),
         ]);
 
@@ -1077,7 +1077,7 @@ const ReportGeneration = () => {
                       : course.courseId;
 
                   const courseRes = await axios.get(
-                    `http://localhost:1234/api/data/course/id/${courseIdString}`
+                    `https://iba-nceac.site/api/data/course/id/${courseIdString}`
                   );
 
                   return {

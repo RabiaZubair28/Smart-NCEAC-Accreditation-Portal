@@ -45,7 +45,7 @@ const InstructorDashboard = () => {
   const fetchCourses = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:1234/api/dashboard/${instructorId}`
+        `https://iba-nceac.site/api/dashboard/${instructorId}`
       );
       setCourses(res.data);
     } catch (error) {
@@ -56,7 +56,7 @@ const InstructorDashboard = () => {
   const fetchStudents = async (courseIds) => {
     try {
       const res = await axios.post(
-        "http://localhost:1234/api/dashboard/students/by-courses",
+        "https://iba-nceac.site/api/dashboard/students/by-courses",
         { courseIds }
       );
       setStudents(res.data);

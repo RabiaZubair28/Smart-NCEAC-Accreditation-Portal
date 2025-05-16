@@ -34,7 +34,7 @@ export default function ResearchInfo() {
     try {
       setLoading(true);
       const response = await fetch(
-        `http://localhost:1234/api/data/research/${params.id}`,
+        `https://iba-nceac.site/api/data/research/${params.id}`,
         {
           method: "GET",
         }
@@ -89,7 +89,7 @@ export default function ResearchInfo() {
         }),
       };
 
-      const response = await fetch("http://localhost:1234/api/data/research", {
+      const response = await fetch("https://iba-nceac.site/api/data/research", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(researchData),
@@ -144,7 +144,7 @@ export default function ResearchInfo() {
       }
 
       const response = await fetch(
-        `http://localhost:1234/api/data/research/${researchToEdit._id}`,
+        `https://iba-nceac.site/api/data/research/${researchToEdit._id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -192,7 +192,7 @@ export default function ResearchInfo() {
       }
 
       const response = await fetch(
-        `http://localhost:1234/api/data/research/${researchToDelete._id}`,
+        `https://iba-nceac.site/api/data/research/${researchToDelete._id}`,
         { method: "DELETE" }
       );
 

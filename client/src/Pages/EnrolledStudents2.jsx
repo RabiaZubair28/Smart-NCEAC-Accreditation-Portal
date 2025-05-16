@@ -25,7 +25,7 @@ const EnrolledStudents2 = () => {
       setCourseLoading(true);
       setCourseError(null);
       const response = await fetch(
-        `http://localhost:1234/api/data/course/id/${params.id}`
+        `https://iba-nceac.site/api/data/course/id/${params.id}`
       );
 
       if (!response.ok) {
@@ -56,7 +56,7 @@ const EnrolledStudents2 = () => {
       setIsInstructorLoading(true);
       setInstructorError(null);
       const response = await fetch(
-        `http://localhost:1234/api/data/instructor/${params.insid}`
+        `https://iba-nceac.site/api/data/instructor/${params.insid}`
       );
 
       if (!response.ok) {
@@ -84,7 +84,7 @@ const EnrolledStudents2 = () => {
     try {
       setIsLoading(true);
       const studentPromises = studentIds.map((id) =>
-        fetch(`http://localhost:1234/api/students/id/${id}`).then((res) => {
+        fetch(`https://iba-nceac.site/api/students/id/${id}`).then((res) => {
           if (!res.ok) {
             throw new Error(`Failed to fetch student ${id}`);
           }
@@ -126,7 +126,7 @@ const EnrolledStudents2 = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:1234/api/students/unenroll/${id}`,
+        `https://iba-nceac.site/api/students/unenroll/${id}`,
         {
           method: "POST",
           headers: {

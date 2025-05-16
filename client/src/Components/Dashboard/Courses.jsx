@@ -15,7 +15,7 @@ export default function Courses() {
     try {
       console.log("Fetching courses for ID:", params.id); // Debugging
       const response = await fetch(
-        `http://localhost:1234/api/data/course/instructor/${params.id}`
+        `https://iba-nceac.site/api/data/course/instructor/${params.id}`
       );
 
       if (response.ok) {
