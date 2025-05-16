@@ -21,13 +21,16 @@ import { fileURLToPath } from "url";
 
 const corsOptions = {
   origin: [
-    "http://localhost:5173",
+    "https://iba-nceac.site",
     "https://extensions.aitopia.ai/languages/lang/get/lang/en",
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
   credentials: true,
   optionSuccessStatus: 200,
 };
+
+const __filename = fileURLToPath(import.meta.url);
+const _dirname = path.dirname(_filename);
 
 dotenv.config();
 
@@ -123,6 +126,12 @@ app.put("/api/updateCover/:id", async (req, res) => {
     console.error("Error updating client:", error);
     res.status(500).json({ message: "Server error" });
   }
+});
+
+app.use(express.static(path.join(__dirname, "..", "/client/dist")));
+console.log(__dirname);
+app.get("*", (_, res) => {
+  res.sendFile(path.resolve(__dirname, "..", "client", "dist", "index.html"));
 });
 
 app.listen(port, () => {
